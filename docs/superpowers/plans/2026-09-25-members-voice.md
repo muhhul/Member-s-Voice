@@ -38,6 +38,7 @@ These were decided after `project.md` was written. Where they conflict with `pro
 - **Next.js 15 async APIs:** `cookies()`, `headers()`, and a page's `params`/`searchParams` props are Promises. Always `await` them.
 - **Admin accounts are deactivated (`is_active = false`), never deleted.** A master cannot deactivate or demote themselves.
 - **Every admin page, route handler, and server action calls `requireRole(...)` or `getAuthorizedUser(...)` itself.** Middleware is not sufficient — server actions can be invoked with a direct POST that never renders a page.
+- **Never put a file-based metadata route under `src/app/`** — no `favicon.ico`, `icon.png`, `apple-icon.png`, `opengraph-image.*`, or `twitter-image.*`. Serve those from `public/` instead. The repository path contains an apostrophe (`Member's Voice`), and Next's metadata-route loader interpolates the absolute file path into a single-quoted JavaScript string without escaping it. The apostrophe closes the string early and the build dies with `Module parse failed: Unexpected token`, pointing at Next's own generated code rather than at anything you wrote. `public/favicon.ico` is served at `/favicon.ico` and never touches that loader. Renaming the repository directory to drop the apostrophe would remove the constraint entirely — worth doing if the directory is ever moved.
 
 ## File Structure
 
@@ -131,26 +132,47 @@ Infrastructure task. There is no behaviour to test yet, so it is verified by a s
 
 - [ ] **Step 1: Scaffold Next.js 15 into the repository root**
 
-```bash
-npx create-next-app@15 . --typescript --app --src-dir --eslint --no-tailwind --import-alias "@/*" --use-npm
-```
-
-`create-next-app` refuses to run only when it finds files it would overwrite. `project.md`, `.gitattributes`, `docs/` and `.git/` are not in that set, so this succeeds in place. If it does refuse, scaffold into a sibling directory and move the contents in:
+**This cannot be scaffolded in place.** `create-next-app` derives the package name from the target directory's name and validates it against npm's naming rules. The repository directory is `Member's Voice`, which fails those rules (spaces, uppercase, an apostrophe), so `.` as the target is rejected. Scaffold into a temporary subdirectory with a valid name, then move the contents up:
 
 ```bash
-npx create-next-app@15 ../mv-scaffold --typescript --app --src-dir --eslint --no-tailwind --import-alias "@/*" --use-npm
-cp -r ../mv-scaffold/. .
-rm -rf ../mv-scaffold
+mkdir -p .scaffold-tmp
+npx --yes create-next-app@15 .scaffold-tmp/members-voice \
+  --typescript --app --src-dir --eslint --no-tailwind --no-turbopack \
+  --import-alias "@/*" --use-npm --skip-install
+cp -r .scaffold-tmp/members-voice/. .
+rm -rf .scaffold-tmp
+rm -f README.md                      # Task 13 writes the real one
+rm -f src/app/page.module.css
+rm -f public/file.svg public/globe.svg public/next.svg public/vercel.svg public/window.svg
 ```
+
+Three details that will waste your time if you skip them:
+
+- **Create `.scaffold-tmp` before running the command.** `create-next-app` checks whether the target's *parent* is writable and reports "The application path is not writable" when the parent does not yet exist — a misleading error that looks like a permissions problem.
+- **`--skip-install`** avoids installing `node_modules` into a directory you are about to move.
+- **`rm -rf .scaffold-tmp` may fail with "Device or resource busy"** on Windows if a shell still has that directory as its working directory. Change directory first, or remove it with PowerShell `Remove-Item -Recurse -Force`.
 
 - [ ] **Step 2: Install runtime and dev dependencies**
 
 ```bash
 npm install drizzle-orm @neondatabase/serverless jose bcryptjs zod@^3.23 @upstash/ratelimit @upstash/redis
-npm install -D drizzle-kit tsx dotenv vitest vite-tsconfig-paths @types/bcryptjs
+npm install -D @types/node@^24 drizzle-kit tsx dotenv vitest
 ```
 
-`zod` is pinned to v3 on purpose. v4 moved the string format validators (`z.string().email()` became `z.email()`), and every schema in this plan is written in v3 syntax.
+- **`zod` is pinned to v3 on purpose.** v4 moved the string format validators (`z.string().email()` became `z.email()`), and every schema in this plan is written in v3 syntax.
+- **`@types/node@^24` must be raised explicitly.** `create-next-app` pins `^20`, but `vitest` 5 declares a peer range of `^22.0.0 || >=24.0.0`, so the dev install fails with `ERESOLVE` otherwise. Raising it is the correct fix, not `--legacy-peer-deps`; the runtime here is Node 24.
+- **No `@types/bcryptjs`.** `bcryptjs` 3.x ships its own type definitions; the `@types` package is now a deprecated stub.
+- **No `vite-tsconfig-paths`.** Vite 7, which `vitest` 5 builds on, resolves `tsconfig.json` paths natively.
+
+Then close the one high-severity advisory. `next@15.5.26` pins `postcss` to exactly `8.4.31`, and no newer Next 15 release lifts it, so the fix has to be an override. `postcss` 8.5.x is semver-compatible, so this is safe — add to `package.json`:
+
+```json
+  "overrides": {
+    "postcss": "^8.5.28"
+  },
+```
+
+`npm audit` will still report four moderate findings, all one root cause: `drizzle-kit` depends on the deprecated `@esbuild-kit/*` packages. Leave them. The advisory concerns esbuild's *dev server*, which nothing here runs — `drizzle-kit` uses esbuild only to transpile its config file — and `drizzle-kit` is a dev dependency that never reaches the deployed bundle. Forcing an override risks breaking the CLI in a way that surfaces only at Task 3.
 
 - [ ] **Step 3: Add the npm scripts**
 
@@ -174,14 +196,15 @@ Replace the `"scripts"` block in `package.json` with:
 
 - [ ] **Step 4: Configure Vitest**
 
-Create `vitest.config.ts`:
+Create `vitest.config.mts`:
 
 ```ts
 import { defineConfig } from "vitest/config";
-import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
-  plugins: [tsconfigPaths()],
+  // Vite 7 resolves the "@/*" alias from tsconfig.json natively, so the
+  // vite-tsconfig-paths plugin is no longer needed.
+  resolve: { tsconfigPaths: true },
   test: {
     environment: "node",
     include: ["tests/**/*.test.ts"],
@@ -189,7 +212,7 @@ export default defineConfig({
 });
 ```
 
-`vite-tsconfig-paths` is what makes `@/lib/...` imports resolve inside tests.
+The `.mts` extension matters. As `vitest.config.ts` the file is loaded as CommonJS while containing ESM syntax, and Vite warns about it on every run. `resolve.tsconfigPaths` is what makes `@/lib/...` imports resolve inside tests.
 
 - [ ] **Step 5: Write the brand tokens and base styles**
 
