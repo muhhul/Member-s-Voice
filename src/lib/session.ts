@@ -3,7 +3,8 @@ import { eq } from "drizzle-orm";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { db } from "@/db/client";
-import { adminUsers, type AdminUser } from "@/db/schema";
+import { adminUsers } from "@/db/schema";
+import { adminUserSafeColumns, type AdminUserSummary } from "@/db/columns";
 import {
   SESSION_COOKIE,
   SESSION_TTL_SECONDS,
@@ -47,12 +48,14 @@ export async function getSession(): Promise<SessionPayload | null> {
  * Returns null instead of redirecting, for callers that need to answer with a
  * status code (the CSV route handler) rather than a redirect.
  */
-export async function getAuthorizedUser(allowed: Role[]): Promise<AdminUser | null> {
+export async function getAuthorizedUser(allowed: Role[]): Promise<AdminUserSummary | null> {
   const session = await getSession();
   if (!session) return null;
 
+  // Selects the safe columns only: this value is returned to pages and
+  // therefore ends up in the rendered payload.
   const [user] = await db
-    .select()
+    .select(adminUserSafeColumns)
     .from(adminUsers)
     .where(eq(adminUsers.id, session.uid))
     .limit(1);
@@ -66,7 +69,7 @@ export async function getAuthorizedUser(allowed: Role[]): Promise<AdminUser | nu
  * The authorization gate every admin page and server action must call.
  * Does not touch cookies: Next.js forbids cookie writes during a render.
  */
-export async function requireRole(allowed: Role[]): Promise<AdminUser> {
+export async function requireRole(allowed: Role[]): Promise<AdminUserSummary> {
   const user = await getAuthorizedUser(allowed);
   if (!user) redirect("/admin/login");
   return user;

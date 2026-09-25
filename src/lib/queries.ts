@@ -1,6 +1,7 @@
 import { and, asc, count, desc, eq, gte, ilike, lt, type SQL } from "drizzle-orm";
 import { db } from "@/db/client";
-import { adminUsers, voices, type AdminUser, type Voice } from "@/db/schema";
+import { adminUsers, voices, type Voice } from "@/db/schema";
+import { adminUserSafeColumns, type AdminUserSummary } from "@/db/columns";
 import { PAGE_SIZE } from "@/lib/constants";
 import { jakartaDayEndExclusive, jakartaDayStart } from "@/lib/format";
 import { escapeLike } from "@/lib/like";
@@ -69,6 +70,7 @@ export async function listVoicesForExport(
     .limit(limit);
 }
 
-export async function listAdminUsers(): Promise<AdminUser[]> {
-  return db.select().from(adminUsers).orderBy(asc(adminUsers.email));
+export async function listAdminUsers(): Promise<AdminUserSummary[]> {
+  // Never db.select() bare here - see the note on adminUserSafeColumns.
+  return db.select(adminUserSafeColumns).from(adminUsers).orderBy(asc(adminUsers.email));
 }
