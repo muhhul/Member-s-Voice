@@ -2,7 +2,9 @@
 
 An anonymous feedback box for all employees. Employees submit their voice without logging in. Management accounts log in to read the submissions, and a master account manages those management accounts.
 
-> **Status:** Demo. It will be deployed on Vercel's free (Hobby) plan.
+> **Status:** Demo **built and deployed** at https://membersvoice-pwpd.vercel.app
+> on Vercel's free (Hobby) plan. See [README.md](README.md) for how to run it,
+> the residual anonymity risks, and the decisions still open.
 > The Hobby plan is for non-commercial, personal use only. Before this app is used officially, it must move to Vercel Pro or to another host.
 
 ---
@@ -105,7 +107,7 @@ member-voice/
 │  │  ├─ rate-limit.ts
 │  │  ├─ turnstile.ts
 │  │  ├─ validation.ts             # zod schemas
-│  │  └─ constants.ts              # CATEGORIES, AREAS
+│  │  └─ constants.ts              # CATEGORIES
 │  └─ proxy.ts                     # (or middleware.ts on Next 15)
 ├─ scripts/
 │  └─ seed.ts                      # creates master account (+ demo data with --demo)
@@ -126,7 +128,6 @@ export const roleEnum = pgEnum("role", ["master", "viewer"]);
 export const voices = pgTable("voices", {
   id: uuid("id").primaryKey().defaultRandom(),
   category: text("category").notNull(),   // validated against CATEGORIES
-  area: text("area"),                     // optional, coarse, validated against AREAS
   message: text("message").notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
@@ -147,8 +148,7 @@ export const adminUsers = pgTable("admin_users", {
 ### Constants (to be confirmed with management)
 
 ```ts
-export const CATEGORIES = ["facility", "safety", "work_environment", "idea", "other"] as const;
-export const AREAS = ["production", "office", "warehouse", "other"] as const;
+export const CATEGORIES = ["safety", "hr", "facility_improvement"] as const;
 ```
 
 The values are stored in English. The UI maps them to Indonesian labels, for example `facility` → "Fasilitas" and `safety` → "K3".
@@ -162,7 +162,7 @@ These are requirements, not suggestions.
 1. Never store the IP address, user agent, or any fingerprint alongside a voice.
 2. Never `console.log` request bodies or headers in the submit path.
 3. The dashboard and CSV show **date only**, not the exact time. `created_at` keeps full precision only for sorting. Exact times make it easy to guess who was on their phone at that moment.
-4. `area` is optional and coarse. The default option is "Tidak ingin menyebutkan" (prefer not to say).
+4. ~~`area` is optional and coarse.~~ **Dropped.** `area` was removed entirely before implementation, which removes the attribute that could have narrowed down a submitter.
 5. No uploads in the demo.
 6. Rate limiting uses a **salted SHA-256 hash of the IP** with a short TTL in Redis. It is never linked to a voice row.
 7. The form states plainly what is and is not collected. That statement must stay true.
@@ -176,7 +176,7 @@ The submit action applies these checks in order:
 1. **Honeypot:** a hidden `website` field. If it is filled, pretend success and drop the request.
 2. **Turnstile:** verify the token on the server when `TURNSTILE_SECRET_KEY` is set.
 3. **Rate limit:** 5 submissions per 10 minutes per hashed IP, when Upstash keys are set.
-4. **Validation (zod):** `category` must be in `CATEGORIES`, `area` must be in `AREAS` or empty, and `message` must be 10 to 2000 characters after trimming.
+4. **Validation (zod):** `category` must be in `CATEGORIES`, and `message` must be 10 to 2000 characters after trimming.
 
 Access is restricted to "employees only" by distributing the link or QR code only through internal channels. Without login, the app cannot enforce this technically.
 
@@ -247,18 +247,18 @@ Use separate databases (or Neon branches) for development and production.
 
 ## 13. Milestones
 
-- [ ] **M0: Setup.** Next.js, Drizzle, and Neon connected; a "hello world" deployed to Vercel.
-- [ ] **M1: Public form.** `/` and `/thank-you`, with validation, honeypot, and optional Turnstile and rate limiting.
-- [ ] **M2: Auth.** `/admin/login`, session, proxy, `requireRole`, and the seed script.
-- [ ] **M3: Dashboard.** `/admin` list with filters, search, and pagination; `/admin/export` for CSV.
-- [ ] **M4: User management.** `/admin/users` for the master.
-- [ ] **M5: Demo polish.** Demo seed data, mobile QA, and the QR code for the link.
+- [x] **M0: Setup.** Next.js, Drizzle, and Neon connected; a "hello world" deployed to Vercel.
+- [x] **M1: Public form.** `/` and `/thank-you`, with validation, honeypot, and optional Turnstile and rate limiting.
+- [x] **M2: Auth.** `/admin/login`, session, proxy, `requireRole`, and the seed script.
+- [x] **M3: Dashboard.** `/admin` list with filters, search, and pagination; `/admin/export` for CSV.
+- [x] **M4: User management.** `/admin/users` for the master.
+- [x] **M5: Demo polish.** Demo seed data, mobile QA, and the QR code for the link.
 
 ---
 
 ## 14. Open Questions
 
-- Final list of categories and areas.
+- ~~Final list of categories and areas.~~ **Settled:** three categories (`safety`, `hr`, `facility_improvement`); `area` dropped entirely.
 - Branding: company name, logo, and colors.
 - Where the app lives after the demo (Vercel Pro, another host, or company infrastructure).
 - Data retention: how long voices are kept.
