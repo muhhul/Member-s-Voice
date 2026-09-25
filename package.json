@@ -1,0 +1,46 @@
+{
+  "name": "members-voice",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest",
+    "db:push": "drizzle-kit push",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "seed": "tsx scripts/seed.ts",
+    "seed:demo": "tsx scripts/seed.ts --demo"
+  },
+  "overrides": {
+    "postcss": "^8.5.28"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.1.0",
+    "@upstash/ratelimit": "^2.2.0",
+    "@upstash/redis": "^1.39.0",
+    "bcryptjs": "^3.0.3",
+    "drizzle-orm": "^0.45.3",
+    "jose": "^6.2.12",
+    "next": "15.5.26",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@types/node": "^24.13.6",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "dotenv": "^18.0.3",
+    "drizzle-kit": "^0.31.11",
+    "eslint": "^9",
+    "eslint-config-next": "15.5.26",
+    "tsx": "^4.23.15",
+    "typescript": "^5",
+    "vitest": "^5.0.1"
+  }
+}
