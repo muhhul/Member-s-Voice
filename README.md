@@ -5,7 +5,8 @@ Akun manajemen masuk untuk membaca, dan akun master mengelola akun manajemen.
 
 - **Demo:** https://membersvoice-pwpd.vercel.app
 - **Spesifikasi:** [project.md](project.md)
-- **Rencana implementasi:** [docs/superpowers/plans](docs/superpowers/plans)
+- **Catatan keputusan:** [docs/decisions.md](docs/decisions.md) — kenapa hal-hal
+  dibangun seperti ini, jebakan lingkungan, dan yang belum teruji otomatis
 
 QR code untuk disebar ke karyawan ada di [public/qr.png](public/qr.png).
 Isinya sudah diverifikasi menunjuk ke URL demo di atas, tetapi **pindai dulu
@@ -115,19 +116,17 @@ atas [src/app/globals.css](src/app/globals.css). Logo ada di
 [public/logo.svg](public/logo.svg). Nilai yang ada sekarang **masih sementara**
 — ganti keduanya dengan aset resmi TMMIN, tanpa menyentuh file lain.
 
-## Catatan teknis yang mudah menjebak
+## Aturan sebelum menyentuh kode ini
+
+Tiga hal yang tidak akan ketahuan dari membaca kodenya. Alasan lengkapnya ada
+di [docs/decisions.md](docs/decisions.md).
 
 - **Jangan letakkan file metadata di `src/app/`** — tidak `favicon.ico`,
-  `icon.png`, maupun `opengraph-image.*`. Path repo ini mengandung apostrof
-  (`Member's Voice`), dan loader metadata Next menyisipkan path absolut ke
-  string ber-kutip-satu tanpa escape, sehingga build gagal dengan error yang
-  menunjuk ke kode generated Next. Letakkan di `public/` saja.
-- **`server-only`, `bcryptjs`, `node:crypto`, dan `src/db/client.ts` tidak boleh
-  tersentuh oleh `src/middleware.ts`**, yang berjalan di Edge runtime. Hanya
-  `src/lib/jwt.ts` yang boleh diimpor dari sana.
-- **Jangan pernah `db.select()` polos pada `admin_users`.** Gunakan
-  `adminUserSafeColumns`; select polos ikut menarik `password_hash`, dan React
-  menyerialisasi data yang dirender Server Component ke payload halaman.
+  `icon.png`, maupun `opengraph-image.*`. Pakai `public/`.
+- **`src/middleware.ts` hanya boleh mengimpor `src/lib/jwt.ts`.** Bukan
+  `bcryptjs`, `node:crypto`, `server-only`, atau `src/db/client.ts`.
+- **Jangan pernah `db.select()` polos pada `admin_users`.** Pakai
+  `adminUserSafeColumns`. Ada test yang menegakkan ini.
 
 ## Keputusan yang masih terbuka
 
