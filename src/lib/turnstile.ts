@@ -1,9 +1,5 @@
 const VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 
-export function isTurnstileEnabled(): boolean {
-  return Boolean(process.env.TURNSTILE_SECRET_KEY);
-}
-
 /**
  * Returns true when the request may proceed.
  *

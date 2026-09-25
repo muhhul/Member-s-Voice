@@ -7,8 +7,8 @@ import { jakartaDayEndExclusive, jakartaDayStart } from "@/lib/format";
 import { escapeLike } from "@/lib/like";
 import type { VoiceFilters } from "@/lib/validation";
 
-/** Shared by the list page and the CSV export so both apply identical filters. */
-export function voiceWhere(filters: VoiceFilters): SQL | undefined {
+/** Shared by listVoices and listVoicesForExport so both apply identical filters. */
+function voiceWhere(filters: VoiceFilters): SQL | undefined {
   const conditions: SQL[] = [];
 
   if (filters.category) {

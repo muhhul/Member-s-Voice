@@ -47,4 +47,3 @@ export const adminUsers = pgTable("admin_users", {
 });
 
 export type Voice = typeof voices.$inferSelect;
-export type AdminUser = typeof adminUsers.$inferSelect;

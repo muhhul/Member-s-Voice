@@ -19,8 +19,21 @@ export function redisCredentials(): RedisCredentials | null {
   return url && token ? { url, token } : null;
 }
 
+type RateLimitConfig = { credentials: RedisCredentials; salt: string };
+
+/**
+ * The single place that decides whether rate limiting is configured. Both the
+ * boolean check and the limiter itself read from here, so they cannot drift
+ * apart, and the salt arrives already narrowed to a string.
+ */
+function rateLimitConfig(): RateLimitConfig | null {
+  const credentials = redisCredentials();
+  const salt = process.env.RATE_LIMIT_SALT;
+  return credentials && salt ? { credentials, salt } : null;
+}
+
 export function isRateLimitEnabled(): boolean {
-  return Boolean(redisCredentials() && process.env.RATE_LIMIT_SALT);
+  return rateLimitConfig() !== null;
 }
 
 let limiter: Ratelimit | null = null;
@@ -45,12 +58,12 @@ function getLimiter(credentials: RedisCredentials): Ratelimit {
  * silently dropping real feedback.
  */
 export async function checkRateLimit(ip: string | null): Promise<boolean> {
-  const credentials = redisCredentials();
-  if (!credentials || !process.env.RATE_LIMIT_SALT || !ip) return true;
+  const config = rateLimitConfig();
+  if (!config || !ip) return true;
 
   try {
-    const key = hashIp(ip, process.env.RATE_LIMIT_SALT);
-    const { success } = await getLimiter(credentials).limit(key);
+    const key = hashIp(ip, config.salt);
+    const { success } = await getLimiter(config.credentials).limit(key);
     return success;
   } catch {
     // Deliberately logs nothing: every value in scope here derives from the

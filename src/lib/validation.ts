@@ -15,8 +15,6 @@ export const voiceSchema = z.object({
     .max(MESSAGE_MAX, `Pesan maksimal ${MESSAGE_MAX} karakter.`),
 });
 
-export type VoiceInput = z.infer<typeof voiceSchema>;
-
 export const loginSchema = z.object({
   email: z.string().trim().toLowerCase().email("Format email tidak valid."),
   password: z.string().min(1, "Kata sandi wajib diisi."),
