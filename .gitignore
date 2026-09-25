@@ -41,3 +41,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local scratch file holding secrets to paste into the Vercel dashboard
+NILAI-UNTUK-VERCEL.txt
