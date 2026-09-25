@@ -1846,10 +1846,11 @@ main().catch((error) => {
 });
 ```
 
-Two things in that file are deliberate and will look wrong otherwise:
+Three things in that file are deliberate and will look wrong otherwise:
 
-- **The `loadEnv` calls sit above the other imports.** `src/db/client.ts` throws at import time when `DATABASE_URL` is missing, which is why this script builds its own Drizzle client rather than importing that one — the seed can then report a clear, actionable error instead of an import crash.
+- **The script never imports `src/db/client.ts`; it builds its own Drizzle client.** This is the important one. `src/db/client.ts` throws at module-evaluation time when `DATABASE_URL` is missing, and **placing `loadEnv()` above the imports does not prevent that** — imports are hoisted and evaluated before any top-level statement runs, so the module would throw before `loadEnv` ever executes. Building a separate client sidesteps the ordering entirely and lets the seed report a clear, actionable error. If you ever do need one of those throwing modules in a script, reach for `const { db } = await import("...")` after `loadEnv()`.
 - **`loadEnv` is called twice**, first with `.env.local` (where `vercel env pull` writes) and then bare (`.env`). `dotenv` does not overwrite variables that are already set, so the first call wins where both files define the same key.
+- **Everything runs inside `async function main()`, not at the top level.** `tsx` compiles a `.ts` file to CommonJS unless the package is `"type": "module"`, and esbuild rejects top-level `await` in CJS output. A one-off script that does need top-level `await` should use the `.mts` extension instead.
 
 - [ ] **Step 2: Verify `npm run seed` is idempotent**
 
