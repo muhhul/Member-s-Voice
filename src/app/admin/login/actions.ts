@@ -4,6 +4,7 @@ import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { db } from "@/db/client";
 import { adminUsers } from "@/db/schema";
+import { adminUserCredentialColumns } from "@/db/columns";
 import { verifyPassword } from "@/lib/password";
 import { createSession, destroySession } from "@/lib/session";
 import { loginSchema } from "@/lib/validation";
@@ -33,8 +34,10 @@ export async function login(_prevState: LoginState, formData: FormData): Promise
     return { error: GENERIC_ERROR };
   }
 
+  // The one place allowed to read password_hash. The value is compared below
+  // and never leaves this function.
   const [user] = await db
-    .select()
+    .select(adminUserCredentialColumns)
     .from(adminUsers)
     .where(eq(adminUsers.email, parsed.data.email))
     .limit(1);
