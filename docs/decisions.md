@@ -22,7 +22,7 @@ bertentangan, yang di sini yang berlaku.
 | Kode di root repo | `member-voice/` di §5 adalah nama proyek, bukan folder |
 | Next.js 15, bukan 16 | Dokumentasi lebih matang. File middleware bernama `middleware.ts`, bukan `proxy.ts` |
 | Master bisa hapus satu suara | Scope tambahan dari keputusan retensi |
-| Branding TMMIN | Warna dan logo masih placeholder |
+| Branding TMMIN | Tampilan publik mengikuti `design/mockup.jpg`. Ilustrasi dipotong dari sana, warna diambil dari sana, sisanya HTML |
 
 ## 2. Keputusan arsitektur yang tidak terbaca dari kode
 
@@ -97,6 +97,18 @@ menerima keduanya supaya tidak perlu menyalin token antar-kolom dashboard.
 browser. Selain itu, saat impor, Vercel membaca `.env.example` di repo dan
 membuat nama-nama variabel itu dengan **nilai kosong** — mudah dikira sudah terisi.
 
+**`--window-size` Chrome tidak bisa dipakai menguji layar sempit.** Windows
+memaksa lebar jendela minimum sekitar 540px, jadi Chrome me-layout halaman di
+lebar itu lalu memotong gambarnya sesuai ukuran yang diminta. Hasilnya terlihat
+persis seperti bug overflow horizontal: teks terpotong di kanan, grid tidak
+turun ke satu kolom. Halamannya sendiri baik-baik saja. Ini berlaku di
+`--headless=new` maupun `--headless=old`. Pakai
+[design/shot.mjs](../design/shot.mjs), yang mengatur viewport lewat
+`Emulation.setDeviceMetricsOverride` di DevTools Protocol sehingga 390px benar-benar
+390px. Cara membuktikannya kalau ragu: tempel sementara `body::before` yang
+isinya berbeda per media query, lalu screenshot - halaman akan memberi tahu
+breakpoint mana yang sebenarnya aktif.
+
 **Backslash termakan shell heredoc.** File yang mengandung `\\` (regex,
 escaping) harus ditulis langsung ke disk, bukan lewat `cat <<'EOF'`. Gejalanya
 halus: `\\` menjadi `\`, yang diam-diam mengubah arti kode.
@@ -125,10 +137,13 @@ mudah dihapus orang yang tidak tahu kenapa apostrofnya ada.
   `users/actions.ts`. Kodenya ada dan tombolnya disembunyikan, tapi belum ada
   test yang membuktikan POST langsung tertolak. Cara menutupnya: ekstrak
   logikanya jadi fungsi murni yang bisa di-unit-test.
-- **Tampilan di ponsel sungguhan.** Yang sudah diperiksa terukur: meta viewport
-  ada, font input 16px (agar iOS tidak zoom), tombol minimal 44px, semua lebar
-  memakai `max-width`, tabel dibungkus kontainer scroll. Sisanya butuh mata
-  manusia di tiga lebar layar.
+- **Tampilan di ponsel sungguhan.** Sudah diverifikasi lewat emulasi CDP di
+  390, 768, dan 1440px: tidak ada overflow horizontal, pilar turun ke satu
+  kolom, form dan tombol muat. Yang juga diperiksa terukur: meta viewport ada,
+  font input 16px (agar iOS tidak zoom), tombol minimal 44px, tabel dibungkus
+  kontainer scroll. Yang belum: perangkat fisik - emulasi tidak menangkap
+  perilaku keyboard iOS, kecepatan jaringan seluler, dan keterbacaan di bawah
+  cahaya lantai produksi.
 - **Alur kirim dari browser**, di luar satu kiriman manual yang diverifikasi
   masuk ke database.
 

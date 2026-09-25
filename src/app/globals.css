@@ -1,17 +1,29 @@
 /*
  * Brand tokens. These are the ONLY place colors are defined.
- * PROVISIONAL VALUES - replace with the official TMMIN palette when it arrives.
- * Changing branding should require editing nothing but this block and public/logo.svg.
+ * Nilainya diambil langsung dari design/mockup.jpg, bukan ditebak.
+ * Ganti di sini bila tim komunikasi memberi panduan warna resmi.
  */
 :root {
-  --brand-primary: #c8102e;
-  --brand-primary-dark: #9c0c23;
+  --brand-primary: #e50014;
+  --brand-primary-dark: #b8000f;
+  --brand-accent: #f00010;
   --brand-ink: #1a1a1a;
   --brand-muted: #6b7280;
   --brand-surface: #ffffff;
   --brand-page: #f5f6f8;
   --brand-border: #d8dbe0;
   --brand-danger: #b42318;
+
+  /* Lima pilar PWPD */
+  --pillar-safe: #00a036;
+  --pillar-comfortable: #0070d2;
+  --pillar-easy: #fdb900;
+  --pillar-enjoy: #f3001c;
+  --pillar-yarigai: #8300b3;
+
+  --notice-bg: #fdfae9;
+  --notice-border: #ece2bd;
+
   --brand-radius: 8px;
   --brand-max-width: 720px;
   --brand-font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -28,7 +40,7 @@ body {
 }
 
 body {
-  background: var(--brand-page);
+  background: var(--brand-surface);
   color: var(--brand-ink);
   font-family: var(--brand-font);
   font-size: 16px;
@@ -39,30 +51,313 @@ a {
   color: var(--brand-primary);
 }
 
-.site-header {
+/* ============================================================
+   Bar atas - dipakai semua halaman
+   ============================================================ */
+
+.topbar {
   background: var(--brand-surface);
-  border-bottom: 3px solid var(--brand-primary);
-  padding: 12px 16px;
+  border-bottom: 1px solid #ededed;
 }
 
-.site-header__inner {
+.topbar__inner {
   align-items: center;
   display: flex;
-  gap: 12px;
+  gap: 14px;
   margin: 0 auto;
-  max-width: var(--brand-max-width);
+  max-width: 1400px;
+  padding: 10px 20px;
 }
 
-.site-header__logo {
-  height: 32px;
+.topbar__logo {
+  height: 38px;
   width: auto;
 }
 
-.site-header__title {
-  font-size: 1.05rem;
+.topbar__rule {
+  align-self: stretch;
+  background: #dcdcdc;
+  margin: 4px 2px;
+  width: 1px;
+}
+
+.topbar__unit {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.topbar__unit strong {
+  display: block;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.topbar__unit span {
+  color: var(--brand-muted);
+  display: block;
+  font-size: 0.74rem;
   font-weight: 600;
+  line-height: 1.3;
+}
+
+.topbar__spacer {
+  flex: 1;
+}
+
+.topbar__tagline {
+  height: 40px;
+  width: auto;
+}
+
+/* ============================================================
+   Halaman publik
+   ============================================================ */
+
+.hero {
+  background: var(--brand-surface);
+}
+
+.hero__img {
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+/*
+ * Panel dekoratif kiri-kanan dipotong dari mockup, jadi membawa latarnya
+ * sendiri. Tepi luarnya menempel ke tepi halaman dan tepi dalamnya berada di
+ * belakang kartu form, sehingga tidak ada sambungan yang terlihat. Disembunyikan
+ * begitu layar tidak cukup lebar untuk menampung kartu dan keduanya sekaligus.
+ */
+.stage {
+  background: var(--brand-surface);
+  padding: 0 20px 26px;
+  position: relative;
+}
+
+.stage__side {
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  height: 420px;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  width: 285px;
+  -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
+}
+
+.stage__side--left {
+  background-image: url("/brand/side-left.webp");
+  left: 0;
+}
+
+.stage__side--right {
+  background-image: url("/brand/side-right.webp");
+  right: 0;
+}
+
+.stage__card {
+  background: var(--brand-surface);
+  border-radius: 18px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  max-width: 960px;
+  padding: 26px 30px 30px;
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 1180px) {
+  .stage__side {
+    display: none;
+  }
+}
+
+/* Notice anonimitas */
+.anon-notice {
+  align-items: flex-start;
+  background: var(--notice-bg);
+  border: 1px solid var(--notice-border);
+  border-radius: 12px;
+  display: flex;
+  gap: 14px;
+  margin-bottom: 24px;
+  padding: 14px 16px;
+}
+
+.anon-notice__icon {
+  align-items: center;
+  background: #3c3c3c;
+  border-radius: 10px;
+  display: flex;
+  flex: none;
+  height: 38px;
+  justify-content: center;
+  width: 38px;
+}
+
+.anon-notice__title {
+  font-weight: 700;
+  margin: 0 0 2px;
+}
+
+.anon-notice__body {
+  color: #4a4a4a;
+  font-size: 0.9rem;
   margin: 0;
 }
+
+/* Lencana sukses di halaman terima kasih. */
+.anon-notice__icon--ok {
+  background: #00a036;
+}
+
+/* Field */
+.req {
+  color: var(--brand-primary);
+}
+
+.hint-row {
+  align-items: flex-start;
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.hint-row__icon {
+  flex: none;
+  margin-top: 2px;
+}
+
+.hint-row__text {
+  color: var(--brand-muted);
+  flex: 1;
+  font-size: 0.85rem;
+}
+
+.counter {
+  color: var(--brand-muted);
+  flex: none;
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.counter--warn {
+  color: var(--brand-danger);
+  font-weight: 700;
+}
+
+/* Tombol kirim */
+.btn-send {
+  align-items: center;
+  background: var(--brand-primary);
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 8px 18px rgba(229, 0, 20, 0.26);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  font-family: inherit;
+  font-size: 1.12rem;
+  font-weight: 800;
+  gap: 12px;
+  justify-content: center;
+  margin: 26px auto 0;
+  max-width: 420px;
+  min-height: 58px;
+  padding: 15px 28px;
+  width: 100%;
+}
+
+.btn-send:hover:not(:disabled) {
+  background: var(--brand-primary-dark);
+}
+
+.btn-send:disabled {
+  box-shadow: none;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Lima pilar */
+.pillars {
+  background: var(--brand-surface);
+}
+
+.pillars__inner {
+  display: grid;
+  gap: 0;
+  grid-template-columns: repeat(5, 1fr);
+  margin: 0 auto;
+  max-width: 1400px;
+  padding: 18px 20px 10px;
+}
+
+.pillar {
+  align-items: flex-start;
+  border-left: 1px solid #ececec;
+  display: flex;
+  gap: 12px;
+  padding: 4px 16px;
+}
+
+.pillar:first-child {
+  border-left: none;
+}
+
+.pillar__icon {
+  flex: none;
+}
+
+.pillar__title {
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+
+.pillar__desc {
+  color: #555;
+  font-size: 0.84rem;
+  line-height: 1.35;
+  margin: 0;
+}
+
+@media (max-width: 980px) {
+  .pillars__inner {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 14px;
+  }
+
+  .pillar {
+    border-left: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .pillars__inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Jaring pengaman: dekorasi berposisi absolut tidak boleh melebarkan halaman. */
+main {
+  overflow-x: clip;
+}
+
+/* Pita ilustrasi bawah */
+.band {
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+/* ============================================================
+   Umum: kartu, form, tabel - dipakai halaman admin juga
+   ============================================================ */
 
 .container {
   margin: 0 auto;
@@ -83,7 +378,7 @@ a {
 
 label {
   display: block;
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 6px;
 }
 
@@ -95,14 +390,31 @@ select,
 textarea {
   background: var(--brand-surface);
   border: 1px solid var(--brand-border);
-  border-radius: var(--brand-radius);
+  border-radius: 10px;
   font: inherit;
-  padding: 10px 12px;
+  padding: 12px 14px;
   width: 100%;
 }
 
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  border-color: var(--brand-primary);
+  outline: 2px solid rgba(229, 0, 20, 0.18);
+  outline-offset: 1px;
+}
+
+/* Panah dropdown sendiri, supaya sama di semua browser. */
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23444' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-position: right 14px center;
+  background-repeat: no-repeat;
+  padding-right: 42px;
+}
+
 textarea {
-  min-height: 160px;
+  min-height: 110px;
   resize: vertical;
 }
 
@@ -161,8 +473,8 @@ button.danger {
 }
 
 .notice {
-  background: #fff8e6;
-  border: 1px solid #f0d58c;
+  background: var(--notice-bg);
+  border: 1px solid var(--notice-border);
   border-radius: var(--brand-radius);
   font-size: 0.9rem;
   margin-bottom: 20px;
@@ -226,8 +538,56 @@ th {
   gap: 8px;
 }
 
+@media (max-width: 760px) {
+  .topbar__inner {
+    gap: 10px;
+    padding: 8px 14px;
+  }
+
+  /* Tagline murni dekoratif - yang fungsional adalah logo dan nama divisi. */
+  .topbar__tagline {
+    display: none;
+  }
+
+  .topbar__unit strong {
+    font-size: 0.92rem;
+  }
+
+  .topbar__unit span {
+    font-size: 0.68rem;
+  }
+}
+
 @media (max-width: 560px) {
   .container {
     padding: 16px 12px 56px;
   }
+
+  .stage {
+    padding: 0 12px 20px;
+  }
+
+  .stage__card {
+    border-radius: 14px;
+    padding: 18px 16px 24px;
+  }
+
+  .topbar__tagline {
+    height: 32px;
+  }
+
+  .topbar__logo {
+    height: 32px;
+  }
+}
+
+/* Terbaca screen reader, tidak tampil di layar. */
+.sr-only {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
 }

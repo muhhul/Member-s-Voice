@@ -44,3 +44,6 @@ next-env.d.ts
 
 # local dev server output
 dev-server.log
+
+# screenshot verifikasi - dibuat ulang lewat design/shot.mjs
+design/shots/

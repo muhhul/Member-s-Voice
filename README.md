@@ -111,10 +111,27 @@ ke Vercel Pro atau ke infrastruktur perusahaan.
 
 ## Branding
 
-Semua warna didefinisikan sebagai CSS custom property di blok `:root` paling
-atas [src/app/globals.css](src/app/globals.css). Logo ada di
-[public/logo.svg](public/logo.svg). Nilai yang ada sekarang **masih sementara**
-— ganti keduanya dengan aset resmi TMMIN, tanpa menyentuh file lain.
+Tampilan halaman publik mengikuti [design/mockup.jpg](design/mockup.jpg).
+
+Ilustrasinya dipotong dari mockup itu ke `public/brand/` oleh
+[design/slice.mjs](design/slice.mjs). Teksnya **tidak** ikut jadi gambar - judul
+besar dan ilustrasi pekerja memang satu lockup desain sehingga dibiarkan utuh
+sebagai banner (isi teksnya ada di atribut `alt`), tetapi seluruh form, notice
+anonim, dan lima pilar adalah HTML sungguhan yang ikut mengecil di ponsel.
+
+```bash
+npm i --no-save sharp && node design/slice.mjs   # potong ulang aset
+node design/shot.mjs http://localhost:3000/ out.png 390 1500 2   # screenshot
+```
+
+Warna diambil langsung dari mockup, bukan ditebak, dan didefinisikan sebagai
+CSS custom property di blok `:root` paling atas
+[src/app/globals.css](src/app/globals.css).
+
+Logo Toyota TMMIN dan mark "Always A Better Way" saat ini hasil potongan dari
+mockup, jadi resolusinya terbatas dan akan pecah kalau diperbesar. Sebelum
+dipakai resmi, minta file aslinya ke tim komunikasi - logo korporat biasanya
+tersedia dalam SVG.
 
 ## Aturan sebelum menyentuh kode ini
 
