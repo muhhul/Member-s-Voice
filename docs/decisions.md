@@ -22,7 +22,7 @@ bertentangan, yang di sini yang berlaku.
 | Kode di root repo | `member-voice/` di §5 adalah nama proyek, bukan folder |
 | Next.js 15, bukan 16 | Dokumentasi lebih matang. File middleware bernama `middleware.ts`, bukan `proxy.ts` |
 | Master bisa hapus satu suara | Scope tambahan dari keputusan retensi |
-| Branding TMMIN | Tampilan publik mengikuti sebuah mockup desain. Ilustrasi dipotong jadi aset di `public/brand/`, warna diambil dari sana, sisanya HTML |
+| Branding TMMIN | Tampilan publik memakai satu ilustrasi utuh di `public/brand/poster.webp` dengan form mengambang di atasnya. Warna diambil dari mockup yang sama |
 
 ## 2. Keputusan arsitektur yang tidak terbaca dari kode
 
@@ -159,7 +159,23 @@ Yang masih belum tertutup:
 - **Alur kirim dari browser**, di luar satu kiriman manual yang diverifikasi
   masuk ke database.
 
-## 6. Aturan penulisan
+## 6. Kenapa posternya utuh, bukan dipotong
+
+Versi sebelumnya memotong ilustrasi jadi hero, panel sisi, dan pita bawah,
+lalu menyusunnya dengan HTML. Itu bertahan di semua lebar layar, tapi mockup
+v3 tidak menyediakan kotak kosong untuk form seperti v1 dan v2 — bagian
+tengahnya ditempati pekerja berdiri penuh badan.
+
+Pendekatan sekarang: gambar utuh, form diposisikan dalam persen terhadap
+gambar, isinya diukur `em` supaya ikut menyusut bersama posternya. Yang ditukar:
+lima nilai PWPD dan tulisan penutup berhenti jadi teks HTML dan jadi bagian
+gambar. Isinya dipindahkan ke `alt` poster supaya pembaca layar tetap dapat.
+
+Di bawah 860px form tidak muat di dalam gambar, jadi gambar yang sama
+dipangkas lewat CSS jadi pita atas dan form kembali mengalir normal. Tidak ada
+file kedua.
+
+## 7. Aturan penulisan
 
 - **Komentar dan nama ditulis dalam bahasa Inggris**, sesuai `project.md` §3.
   Yang Bahasa Indonesia hanya teks yang dilihat pengguna. Aturan ini sempat
@@ -172,7 +188,7 @@ Yang masih belum tertutup:
 - **Tidak ada `style={{...}}` untuk keputusan tata letak.** Yang tersisa hanya
   dua di `pillars.tsx`, dan itu warna yang datang dari data, bukan tata letak.
 
-## 7. Yang masih terbuka
+## 8. Yang masih terbuka
 
 Lihat bagian "Keputusan yang masih terbuka" di [README.md](../README.md).
 Yang paling mendesak: bila sehari hanya masuk satu suara, tanggalnya saja sudah

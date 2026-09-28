@@ -117,30 +117,39 @@ ke Vercel Pro atau ke infrastruktur perusahaan.
 
 ## Branding
 
-Tampilan halaman publik mengikuti sebuah mockup desain. Ilustrasinya sudah
-dipotong menjadi aset siap pakai di [public/brand/](public/brand), dan aset
-itulah yang ter-commit - jadi repo ini bisa di-clone dan langsung jalan.
+Halaman publik menampilkan satu ilustrasi utuh,
+[public/brand/poster.webp](public/brand), dengan kartu form mengambang di
+ruang yang memang disediakan desainnya: di bawah subjudul, di atas kartu lima
+nilai, dan di antara dua kolom foto. Posisi kartu itu dinyatakan dalam persen
+terhadap gambar, jadi ia tetap menempel di tempat yang sama saat halaman
+diperlebar atau dipersempit.
 
-Teksnya **tidak** ikut jadi gambar. Judul besar dan ilustrasi pekerja memang
-satu lockup desain sehingga dibiarkan utuh sebagai banner (isi teksnya ada di
-atribut `alt`), tetapi seluruh form, notice anonim, dan lima pilar adalah HTML
-sungguhan yang ikut mengecil di ponsel.
+Isi kartu diukur dalam `em` terhadap satu nilai `font-size` yang mengikuti
+lebar layar. Kalau ukurannya dipatok piksel, kartu akan tetap besar sementara
+posternya mengecil, lalu menjebol ruangnya.
+
+Di bawah 860px ilustrasi terlalu kecil untuk menampung form. Di situ gambar
+yang sama dipangkas lewat CSS menjadi pita atas — bukan file kedua — dan form
+kembali mengalir normal di bawahnya dengan ukuran yang terbaca.
+
+**Konsekuensi yang perlu diketahui:** lima nilai PWPD dan tulisan "Together for
+a Better PWPD" kini bagian dari gambar, bukan teks HTML. Keduanya tidak bisa
+diseleksi, tidak ikut mengecil sendiri, dan tidak terlihat di ponsel karena
+berada di bagian gambar yang terpangkas. Isinya diulang di atribut `alt`
+poster supaya pembaca layar tetap mendapatkannya.
 
 Warna diambil langsung dari mockup, bukan ditebak, dan didefinisikan sebagai
 CSS custom property di blok `:root` paling atas
-[src/app/globals.css](src/app/globals.css). Itu satu-satunya tempat warna
-didefinisikan.
+[src/app/globals.css](src/app/globals.css).
 
 **File mockup dan skrip pemotongnya sengaja tidak ikut repo** (folder `design/`
 ada di `.gitignore`). Konsekuensinya: aset di `public/brand/` tidak bisa
 dibuat ulang dari repo saja. Kalau perlu mengganti ilustrasi, minta folder
-`design/` itu ke pemilik repo, atau ganti langsung file `.webp`-nya dengan
-ukuran yang sama.
+`design/` itu ke pemilik repo, atau ganti langsung file `.webp`-nya.
 
-Logo Toyota TMMIN dan mark "Always A Better Way" saat ini hasil potongan dari
-mockup, jadi resolusinya terbatas dan akan pecah kalau diperbesar. Sebelum
-dipakai resmi, minta file aslinya ke tim komunikasi - logo korporat biasanya
-tersedia dalam SVG.
+Logo Toyota Indonesia dan mark "Always A Better Way" saat ini hasil potongan
+dari mockup, jadi resolusinya terbatas dan akan pecah kalau diperbesar. Sebelum
+dipakai resmi, minta file aslinya ke tim komunikasi.
 
 ## Aturan sebelum menyentuh kode ini
 

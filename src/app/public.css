@@ -4,71 +4,10 @@
  * Loaded by src/app/page.tsx and src/app/thank-you/page.tsx.
  */
 
-/* ============================================================
-   Public page
-   ============================================================ */
-
-.hero {
-  background: var(--brand-surface);
-}
-
-.hero__img {
-  display: block;
-  height: auto;
-  width: 100%;
-}
-
-/*
- * The left and right decorative panels are cropped from the mockup, so each
- * carries its own background. Their outer edges meet the page edge and their
- * inner edges sit behind the form card, which leaves no visible seam. Hidden
- * as soon as the screen is too narrow to hold the card and both panels.
- */
-.stage {
-  background: var(--brand-surface);
-  padding: 0 20px 26px;
-  position: relative;
-}
-
-.stage__side {
-  background-position: top center;
-  background-repeat: no-repeat;
-  background-size: 100% auto;
-  height: 405px;
-  pointer-events: none;
-  position: absolute;
-  top: 0;
-  width: 285px;
-  -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
-}
-
-.stage__side--left {
-  background-image: url("/brand/side-left.webp");
-  left: 0;
-}
-
-.stage__side--right {
-  background-image: url("/brand/side-right.webp");
-  right: 0;
-}
-
-.stage__card {
-  background: var(--brand-surface);
-  border-radius: 18px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
-  margin: 0 auto;
-  max-width: 960px;
-  padding: 26px 30px 30px;
-  position: relative;
-  z-index: 1;
-}
-
-@media (max-width: 1180px) {
-  .stage__side {
-    display: none;
-  }
-}
+/* ------------------------------------------------------------------
+   Form pieces: the anonymity notice, the hint row with its character
+   counter, and the submit button.
+   ------------------------------------------------------------------ */
 
 /* Anonymity notice */
 .anon-notice {
@@ -176,97 +115,6 @@
   opacity: 0.6;
 }
 
-/* Pillars */
-.pillars {
-  padding: 0 20px;
-  position: relative;
-  z-index: 1;
-}
-
-/*
- * In the v2 mockup the pillars are a white card floating over the bottom
- * illustration, not a plain white strip. The negative bottom margin produces
- * that overlap; z-index keeps the card on top.
- */
-.pillars__inner {
-  background: var(--brand-surface);
-  border-radius: 16px;
-  box-shadow: 0 6px 20px rgba(16, 24, 40, 0.1);
-  display: grid;
-  gap: 0;
-  grid-template-columns: repeat(5, 1fr);
-  /*
-   * The overlap is expressed relative to viewport width, not in fixed pixels.
-   * The bottom band scales with the viewport - roughly 124px tall at 1440px
-   * but only 34px at 390px. A fixed -46px swallows the band whole on a phone;
-   * 3vw keeps the proportion the same at every width.
-   */
-  margin: 0 auto -3vw;
-  max-width: 1400px;
-  padding: 16px 20px;
-  position: relative;
-  z-index: 1;
-}
-
-.pillar {
-  align-items: flex-start;
-  border-left: 1px solid #ececec;
-  display: flex;
-  gap: 12px;
-  padding: 4px 16px;
-}
-
-.pillar:first-child {
-  border-left: none;
-}
-
-.pillar__icon {
-  flex: none;
-}
-
-.pillar__title {
-  font-size: 1rem;
-  font-weight: 800;
-  letter-spacing: 0.02em;
-  margin: 0;
-}
-
-.pillar__desc {
-  color: #555;
-  font-size: 0.84rem;
-  line-height: 1.35;
-  margin: 0;
-}
-
-@media (max-width: 980px) {
-  .pillars__inner {
-    grid-template-columns: repeat(2, 1fr);
-    row-gap: 14px;
-  }
-
-  .pillar {
-    border-left: none;
-  }
-}
-
-@media (max-width: 520px) {
-  .pillars__inner {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Safety net: absolutely positioned decoration must not widen the document. */
-main {
-  overflow-x: clip;
-}
-
-/* Bottom illustration band */
-.band {
-  display: block;
-  height: auto;
-  width: 100%;
-}
-
 /* Submission form spacing that used to live in inline styles. */
 .form-error {
   margin-bottom: 16px;
@@ -281,14 +129,202 @@ main {
   margin-top: 20px;
 }
 
-/* Thank-you page */
+.thanks__card .anon-notice__icon {
+  margin: 0 auto 14px;
+}
+
+/* ------------------------------------------------------------------
+   Poster: the artwork is one whole image, with the form floating in
+   the gap the design leaves for it.
+   ------------------------------------------------------------------ */
+
+.poster {
+  background: var(--brand-surface);
+  position: relative;
+}
+
+/*
+ * An <img> rather than a CSS background on purpose: it gives the section its
+ * height from the artwork's own aspect ratio, so the card can be placed at a
+ * percentage offset and stay on the same spot at every width.
+ */
+.poster__art {
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+/*
+ * These four numbers are measured from the artwork, not guessed: the gap sits
+ * below the subtitle, above the five-value card, and between the two photo
+ * columns. Because they are percentages of the image, the card tracks the
+ * illustration as the page is resized instead of drifting off it.
+ */
+.poster__card {
+  background: var(--brand-surface);
+  border-radius: 1.2em;
+  box-shadow: 0 1em 2.4em rgba(0, 0, 0, 0.18);
+  left: 19.53%;
+  padding: 1.3em 1.6em 1.5em;
+  position: absolute;
+  top: 30.22%;
+  width: 60.55%;
+
+  /*
+   * Everything inside the card is sized in em against this one value, so the
+   * whole form scales with the artwork. Fixed pixels would keep their size
+   * while the poster shrank, and the card would burst out of its gap.
+   */
+  font-size: clamp(9px, 0.94vw, 15px);
+}
+
+/* Card internals, all in em so they scale with the poster. */
+.poster__card .anon-notice {
+  border-radius: 0.8em;
+  gap: 0.9em;
+  margin-bottom: 1.1em;
+  padding: 0.75em 0.9em;
+}
+
+.poster__card .anon-notice__icon {
+  border-radius: 0.6em;
+  height: 2.4em;
+  width: 2.4em;
+}
+
+.poster__card .anon-notice__icon svg {
+  height: 1.3em;
+  width: 1.3em;
+}
+
+.poster__card .anon-notice__title {
+  font-size: 1.02em;
+}
+
+.poster__card .anon-notice__body {
+  font-size: 0.9em;
+  line-height: 1.4;
+}
+
+.poster__card .field {
+  margin-bottom: 0.85em;
+}
+
+.poster__card label {
+  font-size: 0.97em;
+  margin-bottom: 0.35em;
+}
+
+.poster__card select,
+.poster__card textarea {
+  border-radius: 0.6em;
+  font-size: 1em;
+  padding: 0.7em 0.85em;
+}
+
+.poster__card select {
+  background-position: right 0.85em center;
+  background-size: 1.05em;
+  padding-right: 2.6em;
+}
+
+.poster__card textarea {
+  min-height: 5.2em;
+}
+
+.poster__card .hint-row {
+  gap: 0.5em;
+  margin-top: 0.45em;
+}
+
+.poster__card .hint-row__text,
+.poster__card .counter {
+  font-size: 0.85em;
+  line-height: 1.35;
+}
+
+.poster__card .hint-row__icon {
+  height: 1em;
+  width: 1em;
+}
+
+.poster__card .btn-send {
+  border-radius: 0.7em;
+  box-shadow: 0 0.5em 1.1em rgba(229, 0, 20, 0.26);
+  font-size: 1.15em;
+  gap: 0.6em;
+  margin-top: 1.1em;
+  max-width: 24em;
+  min-height: 0;
+  padding: 0.7em 1.4em;
+}
+
+.poster__card .btn-send svg:first-of-type {
+  height: 1.15em;
+  width: 1.15em;
+}
+
+.poster__card .btn-send svg:last-of-type {
+  height: 0.95em;
+  width: 0.95em;
+}
+
+.poster__card .form-error {
+  font-size: 0.9em;
+  margin-bottom: 0.7em;
+}
+
+/*
+ * Below this width the artwork is too small to hold a usable form: at 390px
+ * the whole poster is barely 240px tall. So the image keeps only its top band,
+ * cropped by CSS rather than by a second file, and the form returns to normal
+ * flow underneath at a readable size.
+ */
+@media (max-width: 860px) {
+  .poster__art {
+    height: 44vw;
+    max-height: 260px;
+    object-fit: cover;
+    object-position: 50% 12%;
+  }
+
+  .poster__card {
+    border-radius: 14px;
+    font-size: 16px;
+    left: auto;
+    margin: -1.2em 12px 24px;
+    padding: 18px 16px 24px;
+    position: static;
+    top: auto;
+    transform: none;
+    width: auto;
+  }
+
+  .poster__card .btn-send {
+    font-size: 1.05em;
+    max-width: none;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Thank-you page
+   ------------------------------------------------------------------ */
+
 .thanks {
-  padding-top: 40px;
+  display: flex;
+  justify-content: center;
+  padding: 48px 16px 64px;
 }
 
 .thanks__card {
+  background: var(--brand-surface);
+  border: 1px solid var(--brand-border);
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
   max-width: 640px;
+  padding: 28px 30px 30px;
   text-align: center;
+  width: 100%;
 }
 
 .thanks__card .anon-notice__icon {
@@ -301,13 +337,4 @@ main {
 
 .thanks__link {
   margin-bottom: 0;
-}
-
-@media (max-width: 430px) {
-  /* Keep "Kirim Member Voice" on one line on a narrow phone. */
-  .btn-send {
-    font-size: 1rem;
-    gap: 8px;
-    padding: 15px 16px;
-  }
 }
