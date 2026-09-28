@@ -17,7 +17,7 @@ export function UserTable({
   actorId: string;
 }) {
   return (
-    <div className="panel">
+    <div className="panel panel--scroll">
       <table className="data-table">
         <thead>
           <tr>

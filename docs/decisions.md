@@ -199,7 +199,21 @@ seluruh tabel di balik foto. `.admin-shell` membuat konteks penumpukan
 sendiri, jadi -1 tetap berada di dalamnya dan tidak pernah lolos ke belakang
 halaman.
 
-Di bawah 720px fotonya tidak dipasang sama sekali. Admin di ponsel adalah alat
+Dari lebar 861px ke atas area admin **tepat satu layar** dan tabelnya yang
+menggulir di dalam, bukan halamannya yang memanjang. Kepala halaman, filter,
+dan paginasi tetap di tempat sehingga kontrolnya tidak pernah ikut hanyut
+berapa pun jumlah barisnya; kepala tabel dibuat `sticky` di dalam area
+gulirnya sendiri. Kartu putihnya `flex: 0 1 auto`, jadi ia setinggi isinya
+dan baru menyusut saat layar habis — dipaksa memenuhi layar, daftar pendek
+seperti dua akun jadi kartu yang hampir kosong.
+
+Tingginya dipaku ke empat tepi, bukan dihitung `calc(100dvh - ...)`: `dvh`
+dan viewport sebenarnya sempat berselisih 7px dan itu menyisakan scrollbar
+nyasar di halaman.
+
+Di ponsel tata letak satu layar itu tidak dipakai — area gulir di dalam
+viewport pendek sulit dikendalikan dengan jempol, dan halaman yang menggulir
+biasa lebih ramah. Fotonya juga tidak dipasang sama sekali di sana. Admin di ponsel adalah alat
 kerja untuk membaca masukan, dan foto di belakang tabel hanya menambah unduhan
 sekaligus menurunkan kontras teks.
 

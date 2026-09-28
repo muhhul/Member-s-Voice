@@ -22,6 +22,10 @@
   --pillar-enjoy: #f3001c;
   --pillar-yarigai: #8300b3;
 
+  /* Dipakai juga untuk menghitung tinggi area admin, jadi keduanya tidak
+     bisa melenceng satu sama lain. */
+  --topbar-h: 67px;
+
   --admin-bg: #f7f8fa;
   --admin-line: #e4e7ec;
 
@@ -62,6 +66,7 @@ a {
 .topbar {
   background: var(--brand-surface);
   border-bottom: 1px solid #ededed;
+  height: var(--topbar-h);
   /* Sits above the admin area's pinned backdrop layer. */
   position: relative;
   z-index: 2;
@@ -342,6 +347,10 @@ th {
 
   .topbar__logo {
     height: 32px;
+  }
+
+  :root {
+    --topbar-h: 53px;
   }
 }
 

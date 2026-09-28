@@ -13,7 +13,7 @@ export function VoiceTable({ rows, canDelete }: { rows: Voice[]; canDelete: bool
   }
 
   return (
-    <div className="panel">
+    <div className="panel panel--scroll">
       <table className="data-table data-table--compact">
         <thead>
           <tr>
