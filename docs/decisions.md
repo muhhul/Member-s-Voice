@@ -22,7 +22,7 @@ bertentangan, yang di sini yang berlaku.
 | Kode di root repo | `member-voice/` di §5 adalah nama proyek, bukan folder |
 | Next.js 15, bukan 16 | Dokumentasi lebih matang. File middleware bernama `middleware.ts`, bukan `proxy.ts` |
 | Master bisa hapus satu suara | Scope tambahan dari keputusan retensi |
-| Branding TMMIN | Tampilan publik mengikuti `design/mockup.jpg`. Ilustrasi dipotong dari sana, warna diambil dari sana, sisanya HTML |
+| Branding TMMIN | Tampilan publik mengikuti sebuah mockup desain. Ilustrasi dipotong jadi aset di `public/brand/`, warna diambil dari sana, sisanya HTML |
 
 ## 2. Keputusan arsitektur yang tidak terbaca dari kode
 
@@ -103,9 +103,9 @@ lebar itu lalu memotong gambarnya sesuai ukuran yang diminta. Hasilnya terlihat
 persis seperti bug overflow horizontal: teks terpotong di kanan, grid tidak
 turun ke satu kolom. Halamannya sendiri baik-baik saja. Ini berlaku di
 `--headless=new` maupun `--headless=old`. Pakai
-[design/shot.mjs](../design/shot.mjs), yang mengatur viewport lewat
+skrip screenshot yang mengatur viewport lewat
 `Emulation.setDeviceMetricsOverride` di DevTools Protocol sehingga 390px benar-benar
-390px. Cara membuktikannya kalau ragu: tempel sementara `body::before` yang
+390px. Skripnya ada di folder `design/` yang sengaja di luar repo. Cara membuktikannya kalau ragu: tempel sementara `body::before` yang
 isinya berbeda per media query, lalu screenshot - halaman akan memberi tahu
 breakpoint mana yang sebenarnya aktif.
 

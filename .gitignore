@@ -45,5 +45,6 @@ next-env.d.ts
 # local dev server output
 dev-server.log
 
-# screenshot verifikasi - dibuat ulang lewat design/shot.mjs
-design/shots/
+# Folder kerja desain: mockup sumber, skrip pemotong aset, skrip screenshot,
+# dan hasil screenshot. Sengaja di luar repo. Aset jadinya ada di public/brand/.
+design/

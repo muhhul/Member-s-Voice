@@ -111,22 +111,25 @@ ke Vercel Pro atau ke infrastruktur perusahaan.
 
 ## Branding
 
-Tampilan halaman publik mengikuti [design/mockup.jpg](design/mockup.jpg).
+Tampilan halaman publik mengikuti sebuah mockup desain. Ilustrasinya sudah
+dipotong menjadi aset siap pakai di [public/brand/](public/brand), dan aset
+itulah yang ter-commit - jadi repo ini bisa di-clone dan langsung jalan.
 
-Ilustrasinya dipotong dari mockup itu ke `public/brand/` oleh
-[design/slice.mjs](design/slice.mjs). Teksnya **tidak** ikut jadi gambar - judul
-besar dan ilustrasi pekerja memang satu lockup desain sehingga dibiarkan utuh
-sebagai banner (isi teksnya ada di atribut `alt`), tetapi seluruh form, notice
-anonim, dan lima pilar adalah HTML sungguhan yang ikut mengecil di ponsel.
-
-```bash
-npm i --no-save sharp && node design/slice.mjs   # potong ulang aset
-node design/shot.mjs http://localhost:3000/ out.png 390 1500 2   # screenshot
-```
+Teksnya **tidak** ikut jadi gambar. Judul besar dan ilustrasi pekerja memang
+satu lockup desain sehingga dibiarkan utuh sebagai banner (isi teksnya ada di
+atribut `alt`), tetapi seluruh form, notice anonim, dan lima pilar adalah HTML
+sungguhan yang ikut mengecil di ponsel.
 
 Warna diambil langsung dari mockup, bukan ditebak, dan didefinisikan sebagai
 CSS custom property di blok `:root` paling atas
-[src/app/globals.css](src/app/globals.css).
+[src/app/globals.css](src/app/globals.css). Itu satu-satunya tempat warna
+didefinisikan.
+
+**File mockup dan skrip pemotongnya sengaja tidak ikut repo** (folder `design/`
+ada di `.gitignore`). Konsekuensinya: aset di `public/brand/` tidak bisa
+dibuat ulang dari repo saja. Kalau perlu mengganti ilustrasi, minta folder
+`design/` itu ke pemilik repo, atau ganti langsung file `.webp`-nya dengan
+ukuran yang sama.
 
 Logo Toyota TMMIN dan mark "Always A Better Way" saat ini hasil potongan dari
 mockup, jadi resolusinya terbatas dan akan pecah kalau diperbesar. Sebelum
