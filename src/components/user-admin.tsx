@@ -13,9 +13,7 @@ export function CreateUserForm() {
   const [state, formAction, pending] = useActionState(createUser, initialState);
 
   return (
-    <form action={formAction} className="card" style={{ marginBottom: 24 }}>
-      <h2>Buat Akun Baru</h2>
-
+    <form action={formAction} className="form-narrow">
       {state.ok ? (
         <p className="ok" role="status">
           {state.ok}
@@ -82,7 +80,7 @@ export function ResetPasswordForm({ userId }: { userId: string }) {
           placeholder="kata sandi baru"
           minLength={12}
           required
-          style={{ minWidth: 170 }}
+          style={{ minWidth: 150 }}
         />
         <button className="secondary" type="submit" disabled={pending}>
           {pending ? "..." : "Ganti"}

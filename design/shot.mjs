@@ -8,6 +8,9 @@
  * CSS secara langsung, jadi 390px benar-benar 390px.
  *
  * Pakai: node design/shot.mjs <url> <keluaran.png> <lebar> <tinggi> [skala]
+ *
+ * Untuk halaman yang butuh login, set env MV_COOKIE="nama=nilai" - cookie itu
+ * dipasang lewat Network.setCookie sebelum navigasi.
  */
 import { spawn } from "node:child_process";
 import { mkdtempSync, writeFileSync } from "node:fs";
@@ -84,6 +87,17 @@ await send("Emulation.setDeviceMetricsOverride", {
   deviceScaleFactor: Number(scale),
   mobile: Number(w) < 768,
 }, sessionId);
+
+if (process.env.MV_COOKIE) {
+  const [name, ...rest] = process.env.MV_COOKIE.split("=");
+  await send("Network.enable", {}, sessionId);
+  await send("Network.setCookie", {
+    name,
+    value: rest.join("="),
+    domain: new URL(url).hostname,
+    path: "/",
+  }, sessionId);
+}
 
 await send("Page.navigate", { url }, sessionId);
 await sleep(3500);

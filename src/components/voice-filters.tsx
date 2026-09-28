@@ -1,11 +1,13 @@
 import { CATEGORIES, CATEGORY_LABELS } from "@/lib/constants";
 import type { VoiceFilters } from "@/lib/validation";
 
-/** A plain GET form, so it needs no client JavaScript. */
+/** Form GET biasa, jadi tidak perlu JavaScript di sisi klien. */
 export function VoiceFiltersForm({ filters }: { filters: VoiceFilters }) {
+  const hasFilter = Boolean(filters.category || filters.from || filters.to || filters.q);
+
   return (
-    <form action="/admin" method="get" className="card" style={{ marginBottom: 20 }}>
-      <div className="filters">
+    <form action="/admin" method="get" className="panel panel--pad" style={{ marginBottom: 18 }}>
+      <div className="filter-bar">
         <div>
           <label htmlFor="filter-category">Kategori</label>
           <select id="filter-category" name="category" defaultValue={filters.category ?? ""}>
@@ -40,12 +42,14 @@ export function VoiceFiltersForm({ filters }: { filters: VoiceFilters }) {
         </div>
       </div>
 
-      {/* No page input: applying a filter naturally returns to page 1. */}
-      <div className="row-actions">
+      {/* Tanpa input page: menerapkan filter wajar mengembalikan ke halaman 1. */}
+      <div className="filter-actions">
         <button type="submit">Terapkan</button>
-        <a className="hint" href="/admin" style={{ alignSelf: "center" }}>
-          Reset
-        </a>
+        {hasFilter ? (
+          <a className="btn-ghost" href="/admin">
+            Reset
+          </a>
+        ) : null}
       </div>
     </form>
   );

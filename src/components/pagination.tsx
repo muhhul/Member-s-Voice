@@ -19,12 +19,24 @@ export function Pagination({
   };
 
   return (
-    <nav className="row-actions" style={{ alignItems: "center", marginTop: 16 }}>
-      {page > 1 ? <Link href={hrefFor(page - 1)}>&larr; Sebelumnya</Link> : <span />}
+    <nav className="pagination">
+      {page > 1 ? (
+        <Link className="btn-ghost" href={hrefFor(page - 1)}>
+          &larr; Sebelumnya
+        </Link>
+      ) : (
+        <span />
+      )}
       <span className="hint">
         Halaman {page} dari {pageCount}
       </span>
-      {page < pageCount ? <Link href={hrefFor(page + 1)}>Berikutnya &rarr;</Link> : <span />}
+      {page < pageCount ? (
+        <Link className="btn-ghost" href={hrefFor(page + 1)}>
+          Berikutnya &rarr;
+        </Link>
+      ) : (
+        <span />
+      )}
     </nav>
   );
 }

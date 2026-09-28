@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { logout } from "@/app/admin/login/actions";
+import { AdminNav } from "@/components/admin-nav";
 import { requireRole } from "@/lib/session";
 
 export default async function AdminLayout({
@@ -7,22 +7,43 @@ export default async function AdminLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   const user = await requireRole(["master", "viewer"]);
 
+  const items = [{ href: "/admin", label: "Daftar Suara" }];
+  if (user.role === "master") {
+    items.push({ href: "/admin/users", label: "Akun Manajemen" });
+  }
+
   return (
-    <>
-      <nav className="admin-nav">
-        <Link href="/admin">Daftar Suara</Link>
-        {user.role === "master" ? <Link href="/admin/users">Akun Manajemen</Link> : null}
-        <span className="admin-nav__spacer" />
-        <span className="hint">
-          {user.name} ({user.role === "master" ? "Master" : "Manajemen"})
-        </span>
-        <form action={logout}>
-          <button className="secondary" type="submit">
-            Keluar
-          </button>
-        </form>
+    <div className="admin-shell">
+      <nav className="admin-bar">
+        <div className="admin-bar__inner">
+          <AdminNav items={items} />
+          <span className="admin-bar__spacer" />
+          <span className="admin-bar__who">
+            {user.name} &middot; {user.role === "master" ? "Master" : "Manajemen"}
+          </span>
+          <form action={logout} style={{ marginLeft: 10 }}>
+            <button className="btn-ghost" type="submit">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path
+                  d="M15 17v1.5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-13a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2V7"
+                  stroke="currentColor"
+                  strokeWidth="1.9"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M19.5 12H9.5m10 0-3-3m3 3-3 3"
+                  stroke="currentColor"
+                  strokeWidth="1.9"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              Keluar
+            </button>
+          </form>
+        </div>
       </nav>
-      {children}
-    </>
+      <main className="admin-main">{children}</main>
+    </div>
   );
 }

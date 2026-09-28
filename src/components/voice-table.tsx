@@ -1,37 +1,47 @@
 import type { Voice } from "@/db/schema";
+import { CategoryChip } from "@/components/category-chip";
 import { DeleteVoiceButton } from "@/components/delete-voice-button";
-import { categoryLabel } from "@/lib/constants";
 import { formatDateJakarta } from "@/lib/format";
 
 export function VoiceTable({ rows, canDelete }: { rows: Voice[]; canDelete: boolean }) {
   if (rows.length === 0) {
     return (
-      <div className="card">
-        <p>Tidak ada suara yang cocok dengan filter ini.</p>
+      <div className="panel">
+        <p className="empty">Tidak ada suara yang cocok dengan filter ini.</p>
       </div>
     );
   }
 
   return (
-    <div className="card table-scroll">
-      <table>
+    <div className="panel">
+      <table className="data-table data-table--compact">
         <thead>
           <tr>
             <th scope="col">Tanggal</th>
             <th scope="col">Kategori</th>
             <th scope="col">Pesan</th>
-            {canDelete ? <th scope="col">Aksi</th> : null}
+            {canDelete ? (
+              <th scope="col" className="data-table__actions">
+                Aksi
+              </th>
+            ) : null}
           </tr>
         </thead>
         <tbody>
           {rows.map((row) => (
             <tr key={row.id}>
-              {/* Date only. Never render row.createdAt with a time. */}
-              <td style={{ whiteSpace: "nowrap" }}>{formatDateJakarta(row.createdAt)}</td>
-              <td style={{ whiteSpace: "nowrap" }}>{categoryLabel(row.category)}</td>
-              <td style={{ minWidth: 280, whiteSpace: "pre-wrap" }}>{row.message}</td>
+              {/* Tanggal saja. Jangan pernah merender row.createdAt dengan jam. */}
+              <td className="data-table__nowrap" data-label="Tanggal">
+                {formatDateJakarta(row.createdAt)}
+              </td>
+              <td className="data-table__nowrap" data-label="Kategori">
+                <CategoryChip value={row.category} />
+              </td>
+              <td className="data-table__msg" data-label="Pesan">
+                {row.message}
+              </td>
               {canDelete ? (
-                <td>
+                <td className="data-table__actions">
                   <DeleteVoiceButton voiceId={row.id} />
                 </td>
               ) : null}

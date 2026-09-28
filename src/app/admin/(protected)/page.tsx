@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PageHeader } from "@/components/page-header";
 import { Pagination } from "@/components/pagination";
 import { VoiceFiltersForm } from "@/components/voice-filters";
 import { VoiceTable } from "@/components/voice-table";
@@ -27,22 +28,32 @@ export default async function AdminPage({
   const exportQuery = toQueryString(filters, { page: 1 });
 
   return (
-    <main className="container container--wide">
-      <div className="row-actions" style={{ alignItems: "baseline" }}>
-        <h1 style={{ flex: 1 }}>Daftar Suara</h1>
-        <Link href={exportQuery ? `/admin/export?${exportQuery}` : "/admin/export"}>
-          Unduh CSV
-        </Link>
-      </div>
-
-      <p className="hint">
-        {total} suara ditemukan. Tanggal saja yang ditampilkan, tanpa jam, untuk menjaga
-        anonimitas pengirim.
-      </p>
+    <>
+      <PageHeader
+        title="Daftar Suara"
+        subtitle={`${total} suara ditemukan. Tanggal saja yang ditampilkan, tanpa jam, untuk menjaga anonimitas pengirim.`}
+        actions={
+          <Link
+            className="btn-ghost"
+            href={exportQuery ? `/admin/export?${exportQuery}` : "/admin/export"}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path
+                d="M12 3.5v11m0 0 4-4m-4 4-4-4M4.5 16.5v2a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-2"
+                stroke="currentColor"
+                strokeWidth="1.9"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            Unduh CSV
+          </Link>
+        }
+      />
 
       <VoiceFiltersForm filters={filters} />
       <VoiceTable rows={rows} canDelete={user.role === "master"} />
       <Pagination filters={filters} page={page} pageCount={pageCount} />
-    </main>
+    </>
   );
 }
