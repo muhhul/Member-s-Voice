@@ -1,6 +1,7 @@
 import { logout } from "@/app/admin/login/actions";
-import { AdminNav } from "@/components/admin-nav";
+import { AdminNav } from "@/components/admin/admin-nav";
 import { requireRole } from "@/lib/session";
+import "../../admin.css";
 
 export default async function AdminLayout({
   children,
@@ -21,7 +22,7 @@ export default async function AdminLayout({
           <span className="admin-bar__who">
             {user.name} &middot; {user.role === "master" ? "Master" : "Manajemen"}
           </span>
-          <form action={logout} style={{ marginLeft: 10 }}>
+          <form action={logout} className="admin-bar__logout">
             <button className="btn-ghost" type="submit">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path

@@ -26,6 +26,11 @@ npm run dev
 spam hanya aktif kalau kuncinya diisi, jadi pengembangan lokal bisa jalan tanpa
 keduanya.
 
+Setiap push menjalankan lint, test, dan build lewat GitHub Actions
+([.github/workflows/ci.yml](.github/workflows/ci.yml)). Vercel hanya
+menjalankan `next build`, jadi tanpa workflow itu tidak ada yang pernah
+menjalankan test suite.
+
 **Jangan jalankan `npm run build` selagi `npm run dev` hidup.** Keduanya menulis
 ke direktori `.next` yang sama, dan build produksi akan merusak state dev server
 sampai `.next` dihapus dan dev server dijalankan ulang.
@@ -42,6 +47,7 @@ sampai `.next` dihapus dan dev server dijalankan ulang.
 | `npm run db:generate` / `db:migrate` | Migrasi berversi, dipakai setelah demo jadi resmi |
 | `npm run seed` | Buat akun master |
 | `npm run seed:demo` | Buat akun master + data contoh |
+| `npm run verify:admin` | Cek aturan otorisasi admin dari ujung ke ujung (butuh `npm run dev` berjalan) |
 
 ## Peran
 

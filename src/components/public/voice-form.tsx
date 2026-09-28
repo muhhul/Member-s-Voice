@@ -2,7 +2,7 @@
 
 import { useActionState, useState } from "react";
 import { submitVoice, type SubmitState } from "@/app/actions";
-import { TurnstileWidget } from "@/components/turnstile-widget";
+import { TurnstileWidget } from "@/components/public/turnstile-widget";
 import { CATEGORIES, CATEGORY_LABELS, MESSAGE_MAX, MESSAGE_MIN } from "@/lib/constants";
 
 const initialState: SubmitState = { errors: {} };
@@ -38,7 +38,7 @@ export function VoiceForm({ turnstileSiteKey }: { turnstileSiteKey?: string }) {
       </div>
 
       {state.errors._form ? (
-        <p className="error" role="alert" style={{ marginBottom: 16 }}>
+        <p className="error form-error" role="alert">
           {state.errors._form}
         </p>
       ) : null}
@@ -60,7 +60,7 @@ export function VoiceForm({ turnstileSiteKey }: { turnstileSiteKey?: string }) {
         {state.errors.category ? <p className="error">{state.errors.category}</p> : null}
       </div>
 
-      <div className="field" style={{ marginBottom: 0 }}>
+      <div className="field field--last">
         <label htmlFor="message">
           Suara Anda <span className="req">*</span>
         </label>
@@ -103,7 +103,7 @@ export function VoiceForm({ turnstileSiteKey }: { turnstileSiteKey?: string }) {
       </div>
 
       {turnstileSiteKey ? (
-        <div className="field" style={{ marginTop: 20, marginBottom: 0 }}>
+        <div className="field field--turnstile">
           <TurnstileWidget siteKey={turnstileSiteKey} />
         </div>
       ) : null}

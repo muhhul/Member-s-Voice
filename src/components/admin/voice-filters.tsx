@@ -1,12 +1,12 @@
 import { CATEGORIES, CATEGORY_LABELS } from "@/lib/constants";
 import type { VoiceFilters } from "@/lib/validation";
 
-/** Form GET biasa, jadi tidak perlu JavaScript di sisi klien. */
+/** A plain GET form, so it needs no client-side JavaScript. */
 export function VoiceFiltersForm({ filters }: { filters: VoiceFilters }) {
   const hasFilter = Boolean(filters.category || filters.from || filters.to || filters.q);
 
   return (
-    <form action="/admin" method="get" className="panel panel--pad" style={{ marginBottom: 18 }}>
+    <form action="/admin" method="get" className="panel panel--pad filters-panel">
       <div className="filter-bar">
         <div>
           <label htmlFor="filter-category">Kategori</label>

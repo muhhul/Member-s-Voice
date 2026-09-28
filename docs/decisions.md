@@ -83,10 +83,14 @@ server basi. Pakai PowerShell `Stop-Process`.
 Pakai ekstensi `.mts`, atau bungkus dalam `async function main()`.
 
 **`loadEnv()` di atas `import` tidak berguna.** Semua import dievaluasi sebelum
-baris kode pertama, jadi modul yang melempar error saat dimuat — seperti
-`src/db/client.ts` tanpa `DATABASE_URL` — tetap meledak duluan. `scripts/seed.ts`
-karena itu membangun client-nya sendiri. Kalau butuh modul semacam itu di script,
-pakai `await import(...)` setelah `loadEnv()`.
+baris kode pertama, jadi modul yang melempar error saat dimuat tetap meledak
+duluan. Dulu `src/db/client.ts` adalah modul semacam itu — dan satu baris itu
+mengikat tiga hal yang tidak berhubungan ke sebuah secret: `next build` tidak
+bisa mengompilasi tanpa `DATABASE_URL`, script apa pun di graf ini meledak
+sebelum dotenv-nya jalan, dan lapisan query tidak bisa diuji sama sekali.
+Sekarang client itu menyambung saat query pertama, bukan saat diimpor, jadi
+jebakannya hilang. Aturannya tetap berlaku untuk modul lain: kalau sebuah modul
+melempar error saat dimuat, pakai `await import(...)` setelah `loadEnv()`.
 
 **Vercel menamai variabel Upstash `KV_REST_API_URL` / `_TOKEN`**, sedangkan SDK
 Upstash mencari `UPSTASH_REDIS_REST_URL` / `_TOKEN`. `src/lib/rate-limit.ts`
@@ -133,6 +137,14 @@ mudah dihapus orang yang tidak tahu kenapa apostrofnya ada.
 
 ## 5. Yang belum teruji otomatis
 
+Aturan otorisasi admin butuh server hidup, cookie sesi asli, dan database —
+tidak bisa jadi unit test. Semuanya ada di `npm run verify:admin`, yang sengaja
+disimpan di repo: sebelumnya pemeriksaan ini ditulis ulang setiap kali markup
+admin berubah, dan itu cara paling pasti membuatnya akhirnya tidak pernah
+dijalankan sama sekali.
+
+Yang masih belum tertutup:
+
 - **Penjaga "master tidak bisa menonaktifkan dirinya sendiri"** di
   `users/actions.ts`. Kodenya ada dan tombolnya disembunyikan, tapi belum ada
   test yang membuktikan POST langsung tertolak. Cara menutupnya: ekstrak
@@ -147,7 +159,20 @@ mudah dihapus orang yang tidak tahu kenapa apostrofnya ada.
 - **Alur kirim dari browser**, di luar satu kiriman manual yang diverifikasi
   masuk ke database.
 
-## 6. Yang masih terbuka
+## 6. Aturan penulisan
+
+- **Komentar dan nama ditulis dalam bahasa Inggris**, sesuai `project.md` §3.
+  Yang Bahasa Indonesia hanya teks yang dilihat pengguna. Aturan ini sempat
+  bocor selama pekerjaan UI dan diperbaiki serentak.
+- **CSS dipecah tiga**: `globals.css` (token, dasar, bar atas, dan gaya bersama),
+  `public.css` (halaman publik), `admin.css` (area admin). Masing-masing diimpor
+  oleh rute yang memakainya, jadi halaman publik tidak mengunduh gaya admin.
+- **Komponen dipisah `public/` dan `admin/`** supaya batas antara yang dilihat
+  karyawan dan yang dilihat manajemen terbaca dari struktur folder.
+- **Tidak ada `style={{...}}` untuk keputusan tata letak.** Yang tersisa hanya
+  dua di `pillars.tsx`, dan itu warna yang datang dari data, bukan tata letak.
+
+## 7. Yang masih terbuka
 
 Lihat bagian "Keputusan yang masih terbuka" di [README.md](../README.md).
 Yang paling mendesak: bila sehari hanya masuk satu suara, tanggalnya saja sudah

@@ -14,11 +14,11 @@ export function categoryLabel(value: string): string {
 }
 
 /**
- * Warna chip disimpan sebagai nama nada, bukan hex.
+ * Chip colours are stored as tone names, not hex values.
  *
- * Kontras teks-di-atas-latar diurus di CSS (.chip--<nada>), tempat pasangan
- * latar muda dan teks gelap bisa disetel bersama. Menaruh hex di sini akan
- * memisahkan keduanya dan mudah menghasilkan chip yang tidak terbaca.
+ * Text-on-background contrast is handled in CSS (.chip--<tone>), where the pale
+ * background and the dark text are set as a pair. Hex values here would split
+ * that pair apart and make unreadable chips easy to produce.
  */
 export const TONES = ["green", "blue", "amber", "slate"] as const;
 
@@ -30,7 +30,7 @@ export const CATEGORY_TONES: Record<Category, Tone> = {
   facility_improvement: "amber",
 };
 
-/** "slate" untuk nilai lama yang sudah tidak ada di CATEGORIES. */
+/** "slate" covers legacy values no longer present in CATEGORIES. */
 export function categoryTone(value: string): Tone {
   return CATEGORY_TONES[value as Category] ?? "slate";
 }

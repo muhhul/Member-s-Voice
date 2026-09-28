@@ -1,0 +1,458 @@
+/*
+ * Styles for the admin area only.
+ *
+ * Loaded by src/app/admin/(protected)/layout.tsx.
+ */
+
+/* ============================================================
+   Admin area
+   ============================================================ */
+
+/*
+ * The admin area gets its own pale grey ground so its cards read as raised.
+ * The public page stays fully white.
+ */
+.admin-shell {
+  background: var(--admin-bg);
+  min-height: calc(100vh - 60px);
+}
+
+.admin-bar {
+  background: var(--brand-surface);
+  border-bottom: 1px solid var(--admin-line);
+}
+
+.admin-bar__inner {
+  align-items: center;
+  display: flex;
+  gap: 6px;
+  margin: 0 auto;
+  max-width: 1280px;
+  padding: 0 20px;
+}
+
+.admin-bar__link {
+  border-bottom: 3px solid transparent;
+  color: #4b5563;
+  display: block;
+  font-size: 0.93rem;
+  font-weight: 600;
+  padding: 14px 12px 11px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.admin-bar__link:hover {
+  color: var(--brand-ink);
+}
+
+.admin-bar__link[aria-current="page"] {
+  border-bottom-color: var(--brand-primary);
+  color: var(--brand-primary);
+}
+
+.admin-bar__spacer {
+  flex: 1;
+}
+
+.admin-bar__who {
+  color: var(--brand-muted);
+  font-size: 0.84rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-main {
+  margin: 0 auto;
+  max-width: 1280px;
+  padding: 24px 20px 64px;
+}
+
+/* Kepala halaman: judul kiri, aksi kanan. */
+.page-head {
+  align-items: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.page-head__text {
+  flex: 1;
+  min-width: 240px;
+}
+
+.page-head__title {
+  font-size: 1.6rem;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.page-head__sub {
+  color: var(--brand-muted);
+  font-size: 0.88rem;
+  margin: 6px 0 0;
+  max-width: 62ch;
+}
+
+/* Panel: an admin card with a soft shadow rather than a hard border. */
+.panel {
+  background: var(--brand-surface);
+  border: 1px solid var(--admin-line);
+  border-radius: 14px;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+}
+
+.panel--pad {
+  padding: 18px 20px;
+}
+
+.panel + .panel {
+  margin-top: 18px;
+}
+
+/* Category chips */
+.chip {
+  border-radius: 999px;
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.5;
+  padding: 3px 11px;
+  white-space: nowrap;
+}
+
+.chip--green {
+  background: #e6f6ec;
+  color: #046c31;
+}
+
+.chip--blue {
+  background: #e8f1fd;
+  color: #0b5aa8;
+}
+
+.chip--amber {
+  background: #fdf3dd;
+  color: #8a5a00;
+}
+
+.chip--slate {
+  background: #eef0f3;
+  color: #475467;
+}
+
+.chip--rose {
+  background: #fdeaec;
+  color: #a4152a;
+}
+
+/* Icon button: a destructive action must not be the loudest thing on screen. */
+.icon-btn {
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: #98a2b3;
+  cursor: pointer;
+  display: inline-flex;
+  height: 36px;
+  justify-content: center;
+  min-height: 36px;
+  padding: 0;
+  width: 36px;
+}
+
+.icon-btn:hover:not(:disabled),
+.icon-btn:focus-visible {
+  background: #fdeaec;
+  border-color: #f6c9ce;
+  color: var(--brand-danger);
+}
+
+/* Secondary button with an icon, used in page headers. */
+.btn-ghost {
+  align-items: center;
+  background: var(--brand-surface);
+  border: 1px solid var(--admin-line);
+  border-radius: 10px;
+  color: var(--brand-ink);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 0.9rem;
+  font-weight: 600;
+  gap: 8px;
+  min-height: 40px;
+  padding: 9px 14px;
+  text-decoration: none;
+}
+
+.btn-ghost:hover {
+  background: #f9fafb;
+  border-color: #cfd4dc;
+}
+
+/* Data tables */
+.data-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+}
+
+.data-table th {
+  background: #f9fafb;
+  border-bottom: 1px solid var(--admin-line);
+  color: #667085;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 11px 16px;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.data-table td {
+  border-bottom: 1px solid #f0f1f4;
+  padding: 13px 16px;
+  vertical-align: top;
+}
+
+.data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.data-table tbody tr:hover {
+  background: #fcfcfd;
+}
+
+.data-table__msg {
+  line-height: 1.5;
+  min-width: 320px;
+  white-space: pre-wrap;
+}
+
+.data-table__nowrap {
+  white-space: nowrap;
+}
+
+.data-table__actions {
+  text-align: right;
+  width: 1%;
+}
+
+/* Empty state */
+.empty {
+  color: var(--brand-muted);
+  padding: 40px 20px;
+  text-align: center;
+}
+
+/*
+ * On narrow screens the table becomes cards, with no duplicated markup. The
+ * table head is hidden and each cell surfaces its own column label from
+ * data-label, so the message reads in full without horizontal scrolling.
+ */
+@media (max-width: 720px) {
+  .data-table thead {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+
+  .data-table,
+  .data-table tbody,
+  .data-table tr,
+  .data-table td {
+    display: block;
+    width: auto;
+  }
+
+  .data-table tr {
+    border-bottom: 1px solid var(--admin-line);
+    padding: 14px 16px 12px;
+    position: relative;
+  }
+
+  .data-table tbody tr:last-child {
+    border-bottom: none;
+  }
+
+  .data-table td {
+    border: none;
+    padding: 3px 0;
+  }
+
+  .data-table td[data-label]::before {
+    color: #667085;
+    content: attr(data-label);
+    display: block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    margin-bottom: 2px;
+    text-transform: uppercase;
+  }
+
+  /* The message is why anyone opens this page - give it the most room. */
+  .data-table__msg {
+    min-width: 0;
+    padding-top: 8px !important;
+  }
+
+  .data-table__actions {
+    padding-top: 10px !important;
+    text-align: left;
+    width: auto;
+  }
+
+  .data-table__actions::before {
+    display: none !important;
+  }
+
+  /*
+   * Compact variant for the voice list. Column labels are hidden because the
+   * values speak for themselves - a date looks like a date and a chip looks
+   * like a category. Repeating "TANGGAL" on every card is just noise. The
+   * accounts table keeps its labels, because Email/Peran/Status cannot be
+   * read off their values alone.
+   */
+  .data-table--compact tr {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .data-table--compact td::before {
+    display: none !important;
+  }
+
+  .data-table--compact td {
+    padding: 0;
+  }
+
+  .data-table--compact .data-table__actions {
+    margin-left: auto;
+    order: 1;
+    padding-top: 0 !important;
+  }
+
+  .data-table--compact .data-table__msg {
+    flex-basis: 100%;
+    order: 2;
+    padding-top: 2px !important;
+  }
+}
+
+/* Filters */
+.filter-bar {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+}
+
+.filter-bar label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.filter-actions {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+/* Collapsible panel for a form that is only used occasionally. */
+.fold {
+  background: var(--brand-surface);
+  border: 1px solid var(--admin-line);
+  border-radius: 14px;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+  margin-bottom: 18px;
+}
+
+.fold > summary {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  font-weight: 700;
+  gap: 10px;
+  list-style: none;
+  padding: 15px 20px;
+}
+
+.fold > summary::-webkit-details-marker {
+  display: none;
+}
+
+.fold__chev {
+  color: #98a2b3;
+  margin-left: auto;
+  transition: transform 0.15s ease;
+}
+
+.fold[open] .fold__chev {
+  transform: rotate(180deg);
+}
+
+.fold__body {
+  border-top: 1px solid var(--admin-line);
+  padding: 18px 20px 20px;
+}
+
+/* Admin form inputs need not be as wide as the panel holding them. */
+.form-narrow {
+  max-width: 420px;
+}
+
+.pagination {
+  align-items: center;
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+@media (max-width: 720px) {
+  .admin-bar__inner {
+    gap: 2px;
+    padding: 0 12px;
+  }
+
+  .admin-bar__link {
+    font-size: 0.85rem;
+    padding: 12px 8px 9px;
+  }
+
+  .admin-bar__who {
+    display: none;
+  }
+
+  .admin-main {
+    padding: 18px 12px 48px;
+  }
+
+  .page-head__title {
+    font-size: 1.32rem;
+  }
+}
+
+.admin-bar__logout {
+  margin-left: 10px;
+}
+
+.filters-panel {
+  margin-bottom: 18px;
+}
+
+.reset-password__input {
+  min-width: 150px;
+}

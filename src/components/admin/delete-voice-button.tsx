@@ -1,9 +1,9 @@
 import { deleteVoice } from "@/app/admin/(protected)/actions";
-import { ConfirmButton } from "@/components/confirm-button";
+import { ConfirmButton } from "@/components/admin/confirm-button";
 
 /**
- * Server Component yang membungkus ConfirmButton, jadi tidak perlu "use client"
- * di sini: hanya tombolnya yang dikirim ke browser.
+ * A Server Component wrapping ConfirmButton, so no "use client" is needed
+ * here: only the button itself ships to the browser.
  */
 export function DeleteVoiceButton({ voiceId }: { voiceId: string }) {
   return (

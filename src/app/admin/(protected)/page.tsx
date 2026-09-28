@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { PageHeader } from "@/components/page-header";
-import { Pagination } from "@/components/pagination";
-import { VoiceFiltersForm } from "@/components/voice-filters";
-import { VoiceTable } from "@/components/voice-table";
+import { PageHeader } from "@/components/admin/page-header";
+import { Pagination } from "@/components/admin/pagination";
+import { VoiceFiltersForm } from "@/components/admin/voice-filters";
+import { VoiceTable } from "@/components/admin/voice-table";
 import { listVoices } from "@/lib/queries";
 import { toQueryString } from "@/lib/query-string";
 import { requireRole } from "@/lib/session";

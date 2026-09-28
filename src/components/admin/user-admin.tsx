@@ -73,14 +73,21 @@ export function ResetPasswordForm({ userId }: { userId: string }) {
     <form action={formAction}>
       <input type="hidden" name="userId" value={userId} />
       <div className="row-actions">
+        {/*
+          A placeholder is not a label: it disappears on focus and a screen
+          reader announces the field as unnamed. The row already shows which
+          account this belongs to, so the name goes in aria-label rather than a
+          visible <label> that would repeat on every row.
+        */}
         <input
           name="password"
           type="text"
           autoComplete="off"
+          aria-label="Kata sandi baru"
           placeholder="kata sandi baru"
           minLength={12}
           required
-          style={{ minWidth: 150 }}
+          className="reset-password__input"
         />
         <button className="secondary" type="submit" disabled={pending}>
           {pending ? "..." : "Ganti"}

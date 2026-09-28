@@ -1,6 +1,6 @@
 import type { Voice } from "@/db/schema";
-import { CategoryChip } from "@/components/category-chip";
-import { DeleteVoiceButton } from "@/components/delete-voice-button";
+import { CategoryChip } from "@/components/admin/category-chip";
+import { DeleteVoiceButton } from "@/components/admin/delete-voice-button";
 import { formatDateJakarta } from "@/lib/format";
 
 export function VoiceTable({ rows, canDelete }: { rows: Voice[]; canDelete: boolean }) {

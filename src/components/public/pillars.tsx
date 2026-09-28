@@ -1,8 +1,8 @@
 /**
- * Lima nilai PWPD di bawah form.
+ * The five PWPD values shown below the form.
  *
- * Ikonnya SVG inline, bukan potongan dari mockup: bentuknya sederhana, jadi
- * hasilnya tajam di ukuran mana pun dan warnanya ikut token merek.
+ * The icons are inline SVG rather than crops from the mockup: the shapes are
+ * simple, so they stay sharp at any size and follow the brand tokens.
  */
 
 type Pillar = {

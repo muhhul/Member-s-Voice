@@ -6,8 +6,8 @@ import { usePathname } from "next/navigation";
 type Item = { href: string; label: string };
 
 /**
- * Client component semata-mata untuk usePathname: tanpa penanda halaman aktif,
- * kedua tautan terlihat identik meski kamu sedang berada di salah satunya.
+ * A client component purely for usePathname: without an active-page marker
+ * both links look identical even while you are standing on one of them.
  */
 export function AdminNav({ items }: { items: Item[] }) {
   const pathname = usePathname();

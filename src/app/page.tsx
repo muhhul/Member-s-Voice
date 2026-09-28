@@ -1,14 +1,15 @@
-import { Pillars } from "@/components/pillars";
-import { VoiceForm } from "@/components/voice-form";
+import { Pillars } from "@/components/public/pillars";
+import { VoiceForm } from "@/components/public/voice-form";
+import "./public.css";
 
 export default function HomePage() {
   return (
     <main>
       {/*
-        Hero adalah satu banner utuh hasil potongan mockup: wordmark, subjudul,
-        dan ilustrasi pekerja adalah satu lockup desain yang akan rusak kalau
-        dipisah. Teksnya dipindahkan ke alt supaya tetap terbaca screen reader.
-        Varian ponsel dipersempit ke wordmark agar judulnya tidak jadi seuprit.
+        The hero is one whole banner cropped from the mockup. The wordmark,
+        subtitle and worker illustration are a single design lockup that breaks
+        if split apart, so the text lives in the alt attribute instead. The
+        mobile variant is cropped tighter so the title does not shrink to dust.
       */}
       <section className="hero">
         <picture>

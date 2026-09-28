@@ -18,13 +18,13 @@ function TrashIcon() {
 }
 
 /**
- * Tombol kirim yang menuntut dua klik. Dipilih ketimbang window.confirm yang
- * tampilannya ditentukan browser dan diblokir di sebagian konteks.
- * Harus berada di dalam <form>: useFormStatus membaca status form itu.
+ * A submit button that requires two clicks. Preferred over window.confirm,
+ * which is styled by the browser and blocked in some embedded contexts.
+ * Must be rendered inside a <form>: useFormStatus reads that form's state.
  *
- * Varian icon dipakai untuk aksi merusak di dalam baris tabel - aksi yang tidak
- * bisa dibatalkan tidak pantas jadi elemen paling nyaring di layar. Klik kedua
- * baru berwarna merah tegas.
+ * The icon variant is for destructive actions inside a table row. An action
+ * that cannot be undone has no business being the loudest element on screen,
+ * so only the second click turns red.
  */
 export function ConfirmButton({
   label,

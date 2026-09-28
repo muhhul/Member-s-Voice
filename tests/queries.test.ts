@@ -57,7 +57,7 @@ describe("voiceWhere", () => {
   it("turns the from-date into a lower bound on created_at", () => {
     const { sql, params } = sqlFor({ from: "2026-03-15" });
     expect(sql).toContain('"created_at" >=');
-    // Tengah malam waktu Jakarta = 17:00 UTC hari sebelumnya.
+    // Midnight Jakarta time is 17:00 UTC on the previous day.
     expect(params[0]).toBe("2026-03-14T17:00:00.000Z");
   });
 
@@ -66,8 +66,8 @@ describe("voiceWhere", () => {
     // Strictly less-than, against midnight on the following day.
     expect(sql).toContain('"created_at" <');
     expect(sql).not.toContain('"created_at" <=');
-    // Batas atasnya tengah malam Jakarta HARI BERIKUTNYA, sehingga suara yang
-    // dikirim pukul 23:30 pada tanggal "to" tetap ikut terjaring.
+    // The bound is midnight Jakarta on the FOLLOWING day, so a voice sent at
+    // 23:30 on the "to" date is still included.
     expect(params[0]).toBe("2026-03-15T17:00:00.000Z");
   });
 

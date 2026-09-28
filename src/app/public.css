@@ -1,0 +1,304 @@
+/*
+ * Styles for the public submission page only.
+ *
+ * Loaded by src/app/page.tsx and src/app/thank-you/page.tsx.
+ */
+
+/* ============================================================
+   Public page
+   ============================================================ */
+
+.hero {
+  background: var(--brand-surface);
+}
+
+.hero__img {
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+/*
+ * The left and right decorative panels are cropped from the mockup, so each
+ * carries its own background. Their outer edges meet the page edge and their
+ * inner edges sit behind the form card, which leaves no visible seam. Hidden
+ * as soon as the screen is too narrow to hold the card and both panels.
+ */
+.stage {
+  background: var(--brand-surface);
+  padding: 0 20px 26px;
+  position: relative;
+}
+
+.stage__side {
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  height: 405px;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  width: 285px;
+  -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
+}
+
+.stage__side--left {
+  background-image: url("/brand/side-left.webp");
+  left: 0;
+}
+
+.stage__side--right {
+  background-image: url("/brand/side-right.webp");
+  right: 0;
+}
+
+.stage__card {
+  background: var(--brand-surface);
+  border-radius: 18px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  max-width: 960px;
+  padding: 26px 30px 30px;
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 1180px) {
+  .stage__side {
+    display: none;
+  }
+}
+
+/* Anonymity notice */
+.anon-notice {
+  align-items: flex-start;
+  background: var(--notice-bg);
+  border: 1px solid var(--notice-border);
+  border-radius: 12px;
+  display: flex;
+  gap: 14px;
+  margin-bottom: 24px;
+  padding: 14px 16px;
+}
+
+.anon-notice__icon {
+  align-items: center;
+  background: #3c3c3c;
+  border-radius: 10px;
+  display: flex;
+  flex: none;
+  height: 38px;
+  justify-content: center;
+  width: 38px;
+}
+
+.anon-notice__title {
+  font-weight: 700;
+  margin: 0 0 2px;
+}
+
+.anon-notice__body {
+  color: #4a4a4a;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Success badge on the thank-you page. */
+.anon-notice__icon--ok {
+  background: #00a036;
+}
+
+/* Field */
+.req {
+  color: var(--brand-primary);
+}
+
+.hint-row {
+  align-items: flex-start;
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.hint-row__icon {
+  flex: none;
+  margin-top: 2px;
+}
+
+.hint-row__text {
+  color: var(--brand-muted);
+  flex: 1;
+  font-size: 0.85rem;
+}
+
+.counter {
+  color: var(--brand-muted);
+  flex: none;
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.counter--warn {
+  color: var(--brand-danger);
+  font-weight: 700;
+}
+
+/* Submit button */
+.btn-send {
+  align-items: center;
+  background: var(--brand-primary);
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 8px 18px rgba(229, 0, 20, 0.26);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  font-family: inherit;
+  font-size: 1.12rem;
+  font-weight: 800;
+  gap: 12px;
+  justify-content: center;
+  margin: 26px auto 0;
+  max-width: 420px;
+  min-height: 58px;
+  padding: 15px 28px;
+  width: 100%;
+}
+
+.btn-send:hover:not(:disabled) {
+  background: var(--brand-primary-dark);
+}
+
+.btn-send:disabled {
+  box-shadow: none;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Pillars */
+.pillars {
+  padding: 0 20px;
+  position: relative;
+  z-index: 1;
+}
+
+/*
+ * In the v2 mockup the pillars are a white card floating over the bottom
+ * illustration, not a plain white strip. The negative bottom margin produces
+ * that overlap; z-index keeps the card on top.
+ */
+.pillars__inner {
+  background: var(--brand-surface);
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(16, 24, 40, 0.1);
+  display: grid;
+  gap: 0;
+  grid-template-columns: repeat(5, 1fr);
+  /*
+   * The overlap is expressed relative to viewport width, not in fixed pixels.
+   * The bottom band scales with the viewport - roughly 124px tall at 1440px
+   * but only 34px at 390px. A fixed -46px swallows the band whole on a phone;
+   * 3vw keeps the proportion the same at every width.
+   */
+  margin: 0 auto -3vw;
+  max-width: 1400px;
+  padding: 16px 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.pillar {
+  align-items: flex-start;
+  border-left: 1px solid #ececec;
+  display: flex;
+  gap: 12px;
+  padding: 4px 16px;
+}
+
+.pillar:first-child {
+  border-left: none;
+}
+
+.pillar__icon {
+  flex: none;
+}
+
+.pillar__title {
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+
+.pillar__desc {
+  color: #555;
+  font-size: 0.84rem;
+  line-height: 1.35;
+  margin: 0;
+}
+
+@media (max-width: 980px) {
+  .pillars__inner {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 14px;
+  }
+
+  .pillar {
+    border-left: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .pillars__inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Safety net: absolutely positioned decoration must not widen the document. */
+main {
+  overflow-x: clip;
+}
+
+/* Bottom illustration band */
+.band {
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+/* Submission form spacing that used to live in inline styles. */
+.form-error {
+  margin-bottom: 16px;
+}
+
+.field--last {
+  margin-bottom: 0;
+}
+
+.field--turnstile {
+  margin-bottom: 0;
+  margin-top: 20px;
+}
+
+/* Thank-you page */
+.thanks {
+  padding-top: 40px;
+}
+
+.thanks__card {
+  max-width: 640px;
+  text-align: center;
+}
+
+.thanks__card .anon-notice__icon {
+  margin: 0 auto 14px;
+}
+
+.thanks__card h1 {
+  margin-top: 0;
+}
+
+.thanks__link {
+  margin-bottom: 0;
+}
