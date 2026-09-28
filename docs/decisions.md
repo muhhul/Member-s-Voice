@@ -182,9 +182,22 @@ query-nya tidak cocok.
 ## 7. Latar foto di area admin
 
 Halaman admin memakai foto lantai pabrik sebagai latar, dengan seluruh isi
-halaman dalam satu kartu putih di atasnya. Fotonya `cover` dengan attachment
-biasa, bukan `fixed`: gambarnya sudah menutupi elemen pada panjang berapa pun,
-jadi `fixed` tidak menambah apa pun dan tidak andal di iOS Safari.
+halaman dalam satu kartu putih di atasnya.
+
+Fotonya **dipaku ke layar, bukan ke halaman**. Versi pertama memasangnya
+sebagai `background` pada `.admin-shell`, jadi ukurannya mengikuti tinggi
+halaman dan makin diperbesar setiap ada baris tambahan: diukur pada lebar
+1440px, sepuluh baris saja sudah memotongnya jadi 58% lebar foto, dan satu
+halaman penuh 25 baris menyisakan sekitar sepertiga. Sekarang lapisannya
+`position: fixed` seukuran layar — perbesaran tetap 1,11× dan 81% foto
+terlihat, berapa pun panjang halamannya.
+
+Lapisannya elemen sendiri, bukan `background-attachment: fixed`, yang tidak
+andal di iOS Safari. `z-index`-nya **-1**, bukan 0: elemen ber-posisi menang
+atas saudara tak-ber-posisi meski di z-index 0, dan itu sempat menenggelamkan
+seluruh tabel di balik foto. `.admin-shell` membuat konteks penumpukan
+sendiri, jadi -1 tetap berada di dalamnya dan tidak pernah lolos ke belakang
+halaman.
 
 Di bawah 720px fotonya tidak dipasang sama sekali. Admin di ponsel adalah alat
 kerja untuk membaca masukan, dan foto di belakang tabel hanya menambah unduhan

@@ -13,16 +13,35 @@
  * The public page stays fully white.
  */
 /*
- * The factory photo is a backdrop for the whole admin area. `cover` makes it
- * fill however long the table grows; on a 25-row page it stretches and the
- * sides crop, which is the right trade for never running out.
+ * The factory photo is pinned to the viewport, not to the page.
  *
- * Plain scroll attachment, not `fixed`: the image already covers the element
- * at any length, so `fixed` buys nothing and is unreliable on iOS Safari.
+ * As a background on .admin-shell it was sized to the shell, so every extra
+ * table row zoomed it further: measured at 1440px wide, ten rows already
+ * cropped it to 58% of the photo's width and a full 25-row page left about a
+ * third. A fixed layer keeps the framing the design intends at any length.
+ *
+ * A real element rather than background-attachment: fixed, which is unreliable
+ * on iOS Safari.
  */
+.admin-bg {
+  background: var(--admin-bg) url("/brand/admin-bg.webp") center center / cover no-repeat;
+  inset: 0;
+  pointer-events: none;
+  position: fixed;
+  /*
+   * -1, not 0. A positioned element paints above its non-positioned siblings
+   * even at z-index 0, which put this layer over the table. .admin-shell makes
+   * its own stacking context, so -1 stays inside it and never slips behind the
+   * page itself.
+   */
+  z-index: -1;
+}
+
+/* Transparent, so the pinned layer below shows through. */
 .admin-shell {
-  background: var(--admin-bg) url("/brand/admin-bg.webp") center top / cover no-repeat;
   min-height: calc(100vh - 60px);
+  position: relative;
+  z-index: 1;
 }
 
 /* One white card holds the whole page, as in the design. */
@@ -35,6 +54,8 @@
 
 /* Slightly translucent, so the photo's edges show through as in the design. */
 .admin-bar {
+  position: relative;
+  z-index: 2;
   backdrop-filter: blur(6px);
   background: rgba(255, 255, 255, 0.88);
   border-bottom: 1px solid rgba(255, 255, 255, 0.5);
@@ -460,9 +481,10 @@
 
 @media (max-width: 720px) {
   /* No photo on a phone: it costs bytes and lowers text contrast on a tool
-     people use to read feedback, not to admire the plant. */
-  .admin-shell {
-    background: var(--admin-bg);
+     people use to read feedback, not to admire the plant. The layer stays so
+     its colour still backs the page. */
+  .admin-bg {
+    background-image: none;
   }
 
   .admin-panel {

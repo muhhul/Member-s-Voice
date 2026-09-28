@@ -62,6 +62,9 @@ a {
 .topbar {
   background: var(--brand-surface);
   border-bottom: 1px solid #ededed;
+  /* Sits above the admin area's pinned backdrop layer. */
+  position: relative;
+  z-index: 2;
 }
 
 .topbar__inner {

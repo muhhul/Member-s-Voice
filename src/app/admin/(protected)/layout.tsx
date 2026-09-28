@@ -17,6 +17,14 @@ export default async function AdminLayout({
 
   return (
     <div className="admin-shell">
+      {/*
+        The backdrop is its own fixed layer rather than a background on the
+        shell. A background on the shell is sized to the shell, so it zoomed
+        further in with every extra table row - at 25 rows only a third of the
+        photo's width was still visible. Pinned to the viewport it keeps the
+        framing the design intends, whatever the page length.
+      */}
+      <div className="admin-bg" aria-hidden="true" />
       <nav className="admin-bar">
         <div className="admin-bar__inner">
           <AdminNav items={items} />
