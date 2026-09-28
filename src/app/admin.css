@@ -143,11 +143,17 @@
   width: 1.5em;
 }
 
+/*
+ * The cap keeps a long line readable on a wide monitor, but 62ch - the usual
+ * measure for body prose - resolved to 470px and wrapped this one-sentence
+ * caption in two while 573px sat empty beside it. 85ch fits it on one line and
+ * still stops a caption running the full width of a 2560px screen.
+ */
 .page-head__sub {
   color: var(--brand-muted);
   font-size: 0.88rem;
   margin: 6px 0 0;
-  max-width: 62ch;
+  max-width: 85ch;
 }
 
 /* Panel: an admin card with a soft shadow rather than a hard border. */
