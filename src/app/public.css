@@ -274,29 +274,31 @@
   margin-bottom: 0.7em;
 }
 
-/*
- * Below this width the artwork is too small to hold a usable form: at 390px
- * the whole poster is barely 240px tall. So the image keeps only its top band,
- * cropped by CSS rather than by a second file, and the form returns to normal
- * flow underneath at a readable size.
- */
-@media (max-width: 860px) {
-  .poster__art {
-    height: 44vw;
-    max-height: 260px;
-    object-fit: cover;
-    object-position: 50% 12%;
-  }
+/* ------------------------------------------------------------------
+   Five values and the closing band: phone only. On a wide screen both
+   are part of the poster artwork.
+   ------------------------------------------------------------------ */
 
+.pillars,
+.band-mobile {
+  display: none;
+}
+
+@media (max-width: 860px) {
+  /*
+   * On a phone the artwork stops carrying the form. The tall hero is its own
+   * crop, the form returns to normal flow beneath it, and the five values come
+   * back as real text - inside the poster they would render at 8-10px here.
+   */
   .poster__card {
-    border-radius: 14px;
+    border-radius: 16px;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.12);
     font-size: 16px;
     left: auto;
-    margin: -1.2em 12px 24px;
-    padding: 18px 16px 24px;
+    margin: -22px 12px 0;
+    padding: 18px 16px 22px;
     position: static;
     top: auto;
-    transform: none;
     width: auto;
   }
 
@@ -304,37 +306,64 @@
     font-size: 1.05em;
     max-width: none;
   }
-}
 
-/* ------------------------------------------------------------------
-   Thank-you page
-   ------------------------------------------------------------------ */
+  .pillars {
+    display: block;
+    padding: 16px 12px 0;
+  }
 
-.thanks {
-  display: flex;
-  justify-content: center;
-  padding: 48px 16px 64px;
-}
+  .pillars__card {
+    background: var(--brand-surface);
+    border-radius: 16px;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.1);
+    display: grid;
+    gap: 0;
+    grid-template-columns: repeat(5, 1fr);
+    padding: 15px 2px;
+  }
 
-.thanks__card {
-  background: var(--brand-surface);
-  border: 1px solid var(--brand-border);
-  border-radius: 18px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
-  max-width: 640px;
-  padding: 28px 30px 30px;
-  text-align: center;
-  width: 100%;
-}
+  .pillar {
+    border-left: 1px solid #eceef1;
+    padding: 0 3px;
+    text-align: center;
+  }
 
-.thanks__card .anon-notice__icon {
-  margin: 0 auto 14px;
-}
+  .pillar:first-child {
+    border-left: none;
+  }
 
-.thanks__card h1 {
-  margin-top: 0;
-}
+  .pillar__icon {
+    height: clamp(29px, 4.2vw, 40px);
+    width: clamp(29px, 4.2vw, 40px);
+  }
 
-.thanks__link {
-  margin-bottom: 0;
+  /*
+   * Five columns on a 390px screen leaves about 75px each, so these are as
+   * large as the words fit. COMFORTABLE is the constraint - it sets the floor
+   * for every other label.
+   */
+  .pillar__title {
+    /* Grows with the screen: five columns leave ~75px each on a 390px phone
+       but ~140px on a tablet, and the labels should use that room. */
+    font-size: clamp(0.66rem, 1.7vw, 0.95rem);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin: 5px 0 2px;
+  }
+
+  .pillar__desc {
+    color: #4b5563;
+    font-size: clamp(0.62rem, 1.5vw, 0.85rem);
+    line-height: 1.3;
+    margin: 0;
+  }
+
+  .band-mobile {
+    /* A background rather than an <img>: an unmatched media query never
+       downloads it, so wide screens do not pay for a file they never show. */
+    background: url("/brand/band-mobile.webp") no-repeat center top / 100% auto;
+    display: block;
+    margin-top: 14px;
+    padding-top: 18.65%;
+  }
 }

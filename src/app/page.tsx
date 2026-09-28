@@ -1,46 +1,49 @@
+import { Pillars } from "@/components/public/pillars";
 import { VoiceForm } from "@/components/public/voice-form";
 import "./public.css";
 
 /**
- * The v3 artwork is used whole, with the form floating in the gap the poster
- * leaves for it: below the subtitle, above the five-value card, and between
- * the two photo columns.
+ * Two artworks, one per shape of screen, and only one is ever downloaded:
+ * <picture> picks by media query before the request goes out.
  *
- * Everything the poster says is repeated in the alt text, because the wordmark,
- * the five values and the closing line are all part of the picture here and a
- * screen reader would otherwise get nothing from them.
+ * The wide poster carries the five values and the closing line inside the
+ * picture. The tall one does not, because at 390px those would render at
+ * 8-10px - so on a phone they come back as HTML instead.
  */
-const POSTER_ALT =
-  "PWPD Member's Voice - Your Voice for a Better Workplace. " +
+const HERO_ALT =
+  "PWPD Sunter Member's Voice - Your Voice for a Better Workplace. " +
   "Setiap suara Anda penting untuk menciptakan lingkungan kerja yang lebih aman, " +
-  "nyaman, mudah, menyenangkan, dan penuh arti. " +
-  "Lima nilai PWPD: SAFE, bekerja dengan aman. COMFORTABLE, lingkungan kerja yang nyaman. " +
-  "EASY, proses kerja yang lebih mudah. ENJOY, suasana kerja yang menyenangkan. " +
-  "YARIGAI, merasa bermakna dan bangga. Together for a Better PWPD.";
+  "nyaman, mudah, menyenangkan, dan penuh arti.";
 
 export default function HomePage() {
   return (
     <main>
       <section className="poster">
         {/*
-          A plain <img>, not next/image: this is one fixed illustration whose
-          bytes are already tuned, and the optimizer would add a Vercel runtime
-          dependency and quota for a single file.
+          A plain <img> inside <picture>, not next/image: these are two fixed
+          illustrations whose bytes are already tuned, and the optimizer would
+          add a Vercel runtime dependency and quota for them.
         */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          className="poster__art"
-          src="/brand/poster.webp"
-          width={1536}
-          height={930}
-          alt={POSTER_ALT}
-          fetchPriority="high"
-        />
+        <picture>
+          <source media="(max-width: 860px)" srcSet="/brand/hero-mobile.webp" />
+          <img
+            className="poster__art"
+            src="/brand/poster.webp"
+            width={1536}
+            height={930}
+            alt={HERO_ALT}
+            fetchPriority="high"
+          />
+        </picture>
         <div className="poster__card">
           <h1 className="sr-only">Sampaikan Suara Anda</h1>
           <VoiceForm turnstileSiteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY} />
         </div>
       </section>
+
+      {/* Phone only: on a wide screen both of these live inside the poster. */}
+      <Pillars />
+      <div className="band-mobile" aria-hidden="true" />
     </main>
   );
 }

@@ -117,26 +117,23 @@ ke Vercel Pro atau ke infrastruktur perusahaan.
 
 ## Branding
 
-Halaman publik menampilkan satu ilustrasi utuh,
-[public/brand/poster.webp](public/brand), dengan kartu form mengambang di
-ruang yang memang disediakan desainnya: di bawah subjudul, di atas kartu lima
-nilai, dan di antara dua kolom foto. Posisi kartu itu dinyatakan dalam persen
-terhadap gambar, jadi ia tetap menempel di tempat yang sama saat halaman
-diperlebar atau dipersempit.
+Halaman publik memakai **dua ilustrasi, satu per bentuk layar**, dan hanya
+satu yang pernah diunduh — `<picture>` memilih lewat media query sebelum
+permintaan dikirim.
 
-Isi kartu diukur dalam `em` terhadap satu nilai `font-size` yang mengikuti
-lebar layar. Kalau ukurannya dipatok piksel, kartu akan tetap besar sementara
-posternya mengecil, lalu menjebol ruangnya.
+**Layar lebar** memakai [poster.webp](public/brand) yang memuat seluruh adegan
+termasuk lima nilai dan tulisan penutup. Kartu form mengambang di ruang yang
+disediakan desainnya, diposisikan dalam persen terhadap gambar supaya tetap
+menempel di tempat yang sama saat halaman diperlebar atau dipersempit. Isi
+kartu diukur `em` terhadap satu `font-size` yang mengikuti lebar layar; kalau
+dipatok piksel, kartu akan tetap besar sementara posternya mengecil lalu
+menjebol ruangnya.
 
-Di bawah 860px ilustrasi terlalu kecil untuk menampung form. Di situ gambar
-yang sama dipangkas lewat CSS menjadi pita atas — bukan file kedua — dan form
-kembali mengalir normal di bawahnya dengan ukuran yang terbaca.
-
-**Konsekuensi yang perlu diketahui:** lima nilai PWPD dan tulisan "Together for
-a Better PWPD" kini bagian dari gambar, bukan teks HTML. Keduanya tidak bisa
-diseleksi, tidak ikut mengecil sendiri, dan tidak terlihat di ponsel karena
-berada di bagian gambar yang terpangkas. Isinya diulang di atribut `alt`
-poster supaya pembaca layar tetap mendapatkannya.
+**Di bawah 860px** dipakai `hero-mobile.webp` dan `band-mobile.webp` dari
+mockup potret, dengan form mengalir normal di antaranya. Lima nilai PWPD di
+sini **teks HTML sungguhan**, bukan bagian gambar: kalau ikut dipanggang,
+label seperti COMFORTABLE hanya terender 8–10px di layar 390px dan tidak
+terbaca. Ukurannya memakai `clamp()` supaya ikut membesar di tablet.
 
 Warna diambil langsung dari mockup, bukan ditebak, dan didefinisikan sebagai
 CSS custom property di blok `:root` paling atas

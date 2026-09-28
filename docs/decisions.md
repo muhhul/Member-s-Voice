@@ -159,21 +159,25 @@ Yang masih belum tertutup:
 - **Alur kirim dari browser**, di luar satu kiriman manual yang diverifikasi
   masuk ke database.
 
-## 6. Kenapa posternya utuh, bukan dipotong
+## 6. Dua ilustrasi, satu per bentuk layar
 
-Versi sebelumnya memotong ilustrasi jadi hero, panel sisi, dan pita bawah,
-lalu menyusunnya dengan HTML. Itu bertahan di semua lebar layar, tapi mockup
-v3 tidak menyediakan kotak kosong untuk form seperti v1 dan v2 — bagian
-tengahnya ditempati pekerja berdiri penuh badan.
+Mockup v3 tidak menyediakan kotak kosong untuk form seperti v1 dan v2 —
+bagian tengahnya ditempati pekerja berdiri penuh badan. Jadi di layar lebar
+ilustrasinya dipakai utuh dan form diposisikan dalam persen di atasnya, dengan
+isi kartu diukur `em` supaya ikut menyusut bersama posternya.
 
-Pendekatan sekarang: gambar utuh, form diposisikan dalam persen terhadap
-gambar, isinya diukur `em` supaya ikut menyusut bersama posternya. Yang ditukar:
-lima nilai PWPD dan tulisan penutup berhenti jadi teks HTML dan jadi bagian
-gambar. Isinya dipindahkan ke `alt` poster supaya pembaca layar tetap dapat.
+Cara itu tidak bisa dipakai di ponsel. Poster lanskap di lebar 390px menyusut
+jadi pita setinggi 240px, dan teks di dalamnya — termasuk lima nilai PWPD —
+hanya terender 8–10px. Diukur, bukan ditaksir.
 
-Di bawah 860px form tidak muat di dalam gambar, jadi gambar yang sama
-dipangkas lewat CSS jadi pita atas dan form kembali mengalir normal. Tidak ada
-file kedua.
+Karena itu ada mockup potret terpisah untuk ponsel, dan dari situ hanya hero
+dan pita bawah yang diambil sebagai gambar. Lima nilai disusun HTML supaya
+terbaca dan ikut membesar di tablet lewat `clamp()`.
+
+`<picture>` memilih hero mana yang diunduh, jadi tidak ada perangkat yang
+membayar file yang tidak ia tampilkan. Pita ponsel dipasang sebagai
+`background-image` di dalam media query, yang juga tidak diunduh saat media
+query-nya tidak cocok.
 
 ## 7. Aturan penulisan
 
