@@ -1,0 +1,37 @@
+name: CI
+
+# Vercel only runs `next build` on deploy, so without this workflow nothing
+# ever runs the test suite. The guards that matter most here - the one that
+# keeps password hashes out of the page payload, and the one that keeps LIKE
+# wildcards escaped - only protect the app if something runs them on every
+# push.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm run test
+
+      # No DATABASE_URL here on purpose. The database client connects on its
+      # first query rather than at import, so the build needs no secret - and
+      # this job fails if that ever regresses.
+      - name: Build
+        run: npm run build

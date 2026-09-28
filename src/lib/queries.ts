@@ -7,8 +7,12 @@ import { jakartaDayEndExclusive, jakartaDayStart } from "@/lib/format";
 import { escapeLike } from "@/lib/like";
 import type { VoiceFilters } from "@/lib/validation";
 
-/** Shared by listVoices and listVoicesForExport so both apply identical filters. */
-function voiceWhere(filters: VoiceFilters): SQL | undefined {
+/**
+ * Shared by listVoices and listVoicesForExport so both apply identical filters.
+ * Exported for tests/queries.test.ts: this decides which voices management can
+ * see, so the generated SQL is worth asserting on directly.
+ */
+export function voiceWhere(filters: VoiceFilters): SQL | undefined {
   const conditions: SQL[] = [];
 
   if (filters.category) {
