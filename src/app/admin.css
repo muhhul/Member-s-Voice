@@ -396,10 +396,16 @@
 }
 
 /* Filters */
+/*
+ * Explicit tracks, not auto-fit. auto-fit worked out how many 170px columns
+ * fitted, made six, then collapsed the empty one - which left the row ending
+ * short of the panel's right edge. Four equal fields plus a button sized to
+ * its own text fill the width exactly.
+ */
 .filter-bar {
   display: grid;
   gap: 12px;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr)) auto;
 }
 
 .filter-bar label {
@@ -531,14 +537,6 @@
     padding: 12px 12px 14px;
   }
 
-  /*
-   * Two columns rather than one. Stacked, the four filters ate most of a
-   * 390px screen and left the table barely one row of room.
-   */
-  .filter-bar {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .filters-panel {
     margin-bottom: 12px;
     padding: 12px 12px 14px;
@@ -581,14 +579,6 @@
   .filter-actions button {
     min-height: 40px;
     padding: 9px 16px;
-  }
-
-  /*
-   * Full width on a phone. In a 144px half-column the button plus Reset needed
-   * 197px and spilled out of the panel; across both columns they have 296px.
-   */
-  .filter-actions {
-    grid-column: 1 / -1;
   }
 
   .filter-actions .btn-ghost {
@@ -636,6 +626,22 @@
 
 .reset-password__input {
   min-width: 150px;
+}
+
+/*
+ * Below this the four fields plus the button no longer fit one row without
+ * squeezing the date inputs, so they fold to two columns and the actions take
+ * a full-width row of their own. In a half column the button plus Reset needed
+ * 197px against 144px available and spilled out of the panel.
+ */
+@media (max-width: 860px) {
+  .filter-bar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .filter-actions {
+    grid-column: 1 / -1;
+  }
 }
 
 /* ------------------------------------------------------------------
