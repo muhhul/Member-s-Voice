@@ -51,27 +51,27 @@ export function VoiceFiltersForm({ filters }: { filters: VoiceFilters }) {
             />
           </span>
         </div>
-      </div>
 
-      {/* No page input: applying a filter naturally returns to page 1. */}
-      <div className="filter-actions">
-        <button type="submit">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path
-              d="M3.5 5.5h17l-6.6 7.6v5.6l-3.8 2v-7.6z"
-              stroke="currentColor"
-              strokeWidth="1.9"
-              strokeLinejoin="round"
-              fill="none"
-            />
-          </svg>
-          Terapkan
-        </button>
-        {hasFilter ? (
-          <a className="btn-ghost" href="/admin">
-            Reset
-          </a>
-        ) : null}
+        {/* No page input: applying a filter naturally returns to page 1. */}
+        <div className="filter-actions">
+          <button type="submit">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path
+                d="M3.5 5.5h17l-6.6 7.6v5.6l-3.8 2v-7.6z"
+                stroke="currentColor"
+                strokeWidth="1.9"
+                strokeLinejoin="round"
+                fill="none"
+              />
+            </svg>
+            Terapkan
+          </button>
+          {hasFilter ? (
+            <a className="btn-ghost" href="/admin">
+              Reset
+            </a>
+          ) : null}
+        </div>
       </div>
     </form>
   );

@@ -408,17 +408,28 @@
   margin-bottom: 5px;
 }
 
+/*
+ * The actions sit as the last cell of the filter grid, not on a row of their
+ * own: one row of controls instead of two. `align-self: end` lines the button
+ * up with the inputs rather than with the labels above them.
+ */
 .filter-actions {
   align-items: center;
+  align-self: end;
   display: flex;
   gap: 10px;
-  margin-top: 16px;
 }
 
 .filter-actions button {
   align-items: center;
   display: inline-flex;
   gap: 8px;
+  /* Same height as the inputs it now stands beside. */
+  min-height: 46px;
+}
+
+.filter-actions .btn-ghost {
+  min-height: 46px;
 }
 
 /* Collapsible panel for a form that is only used occasionally. */
@@ -567,13 +578,21 @@
     padding: 10px 12px;
   }
 
-  .filter-actions {
-    margin-top: 10px;
-  }
-
   .filter-actions button {
     min-height: 40px;
     padding: 9px 16px;
+  }
+
+  /*
+   * Full width on a phone. In a 144px half-column the button plus Reset needed
+   * 197px and spilled out of the panel; across both columns they have 296px.
+   */
+  .filter-actions {
+    grid-column: 1 / -1;
+  }
+
+  .filter-actions .btn-ghost {
+    min-height: 40px;
   }
 
   .page-head__title {
