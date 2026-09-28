@@ -14,7 +14,7 @@ export function VoiceTable({ rows, canDelete }: { rows: Voice[]; canDelete: bool
 
   return (
     <div className="panel panel--scroll">
-      <table className="data-table data-table--compact">
+      <table className="data-table">
         <thead>
           <tr>
             <th scope="col">Tanggal</th>
@@ -41,7 +41,7 @@ export function VoiceTable({ rows, canDelete }: { rows: Voice[]; canDelete: bool
                 {row.message}
               </td>
               {canDelete ? (
-                <td className="data-table__actions">
+                <td className="data-table__actions" data-label="Aksi">
                   <DeleteVoiceButton voiceId={row.id} />
                 </td>
               ) : null}

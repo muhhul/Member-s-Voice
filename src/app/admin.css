@@ -340,21 +340,45 @@
     padding: 3px 0;
   }
 
+  /*
+   * Label beside the value, not above it. Stacked, four labelled fields made
+   * each card 250-320px tall and only one row fitted the scroller at a time.
+   * Inline they cost one line each instead of two.
+   */
+  .data-table td[data-label] {
+    align-items: baseline;
+    display: flex;
+    gap: 10px;
+  }
+
   .data-table td[data-label]::before {
     color: #667085;
     content: attr(data-label);
-    display: block;
-    font-size: 0.68rem;
+    flex: none;
+    font-size: 0.66rem;
     font-weight: 700;
     letter-spacing: 0.06em;
-    margin-bottom: 2px;
+    padding-top: 2px;
     text-transform: uppercase;
+    width: 62px;
   }
 
-  /* The message is why anyone opens this page - give it the most room. */
-  .data-table__msg {
+  /*
+   * The message is why anyone opens this page, so it keeps the full width and
+   * takes its label above. Inline, the 62px label column pushed the text into
+   * noticeably more wrapped lines.
+   */
+  .data-table__msg[data-label] {
+    display: block;
     min-width: 0;
-    padding-top: 8px !important;
+    padding-top: 6px !important;
+  }
+
+  .data-table__msg[data-label]::before {
+    display: block;
+    margin-bottom: 2px;
+    padding-top: 0;
+    width: auto;
   }
 
   .data-table__actions {
@@ -363,43 +387,6 @@
     width: auto;
   }
 
-  .data-table__actions::before {
-    display: none !important;
-  }
-
-  /*
-   * Compact variant for the voice list. Column labels are hidden because the
-   * values speak for themselves - a date looks like a date and a chip looks
-   * like a category. Repeating "TANGGAL" on every card is just noise. The
-   * accounts table keeps its labels, because Email/Peran/Status cannot be
-   * read off their values alone.
-   */
-  .data-table--compact tr {
-    align-items: center;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .data-table--compact td::before {
-    display: none !important;
-  }
-
-  .data-table--compact td {
-    padding: 0;
-  }
-
-  .data-table--compact .data-table__actions {
-    margin-left: auto;
-    order: 1;
-    padding-top: 0 !important;
-  }
-
-  .data-table--compact .data-table__msg {
-    flex-basis: 100%;
-    order: 2;
-    padding-top: 2px !important;
-  }
 }
 
 /* Filters */
@@ -480,13 +467,6 @@
 }
 
 @media (max-width: 720px) {
-  /* No photo on a phone: it costs bytes and lowers text contrast on a tool
-     people use to read feedback, not to admire the plant. The layer stays so
-     its colour still backs the page. */
-  .admin-bg {
-    background-image: none;
-  }
-
   .admin-panel {
     border-radius: 16px;
     padding: 18px 14px 22px;
@@ -511,8 +491,83 @@
     display: none;
   }
 
+  /*
+   * Icon only. With the nav links carrying icons too, the row measured 395px
+   * against a 390px screen and clipped the logout button off the edge. The
+   * word stays in the markup for screen readers.
+   */
+  .admin-bar__logout button {
+    padding: 9px 11px;
+  }
+
+  .admin-bar__logout .btn-label {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+
   .admin-main {
-    padding: 18px 12px 48px;
+    padding: 12px 12px 14px;
+  }
+
+  /*
+   * Two columns rather than one. Stacked, the four filters ate most of a
+   * 390px screen and left the table barely one row of room.
+   */
+  .filter-bar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .filters-panel {
+    margin-bottom: 12px;
+    padding: 12px 12px 14px;
+  }
+
+  .page-head {
+    margin-bottom: 10px;
+  }
+
+  /*
+   * On a phone every pixel above the table is a row you cannot see. The
+   * subtitle explains the date-only rule, which matters once - so it stays in
+   * the markup for screen readers but leaves the screen.
+   */
+  .page-head__sub {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+
+  /* Tighter fields, same targets: inputs stay at 44px of touch height. */
+  .filter-bar {
+    gap: 8px;
+  }
+
+  .filter-bar label {
+    font-size: 0.72rem;
+    margin-bottom: 2px;
+  }
+
+  .filter-bar input,
+  .filter-bar select {
+    padding: 10px 12px;
+  }
+
+  .filter-actions {
+    margin-top: 10px;
+  }
+
+  .filter-actions button {
+    min-height: 40px;
+    padding: 9px 16px;
   }
 
   .page-head__title {
@@ -563,69 +618,63 @@
    ------------------------------------------------------------------ */
 
 /*
- * From tablet width up the admin area is exactly one screen tall and the
- * table scrolls inside it, rather than the page growing without limit.
+ * The admin area is exactly one screen tall and the table scrolls inside it,
+ * rather than the page growing without limit.
  *
- * The header, the filters and the pagination stay put, so the controls never
- * scroll out of reach no matter how many rows a page holds. The table head is
+ * The page header, the filters and the pagination stay put, so the controls
+ * never scroll out of reach however many rows a page holds. The table head is
  * sticky inside its own scroller, so the column names stay readable too.
  *
- * Not applied on a phone: a scroll area inside a short viewport is awkward to
- * drive with a thumb, and there the page scrolling normally is kinder.
+ * Pinned to the four edges rather than sized with calc(100dvh - ...): dvh and
+ * the actual viewport disagreed by 7px here, which left the page with a stray
+ * scrollbar. Anchoring needs no arithmetic and cannot drift.
  */
-@media (min-width: 861px) {
-  /*
-   * Pinned rather than sized with calc(100dvh - ...): dvh and the actual
-   * viewport disagreed by 7px here, which left the page with a stray scrollbar.
-   * Anchoring to the four edges needs no arithmetic and cannot drift.
-   */
-  .admin-shell {
-    bottom: 0;
-    display: flex;
-    flex-direction: column;
-    left: 0;
-    overflow: hidden;
-    position: fixed;
-    right: 0;
-    top: var(--topbar-h);
-  }
+.admin-shell {
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  left: 0;
+  overflow: hidden;
+  position: fixed;
+  right: 0;
+  top: var(--topbar-h);
+}
 
-  .admin-main {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    min-height: 0;
-    padding-bottom: 22px;
-    padding-top: 20px;
-  }
+.admin-main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  padding-bottom: 22px;
+  padding-top: 20px;
+}
 
-  /*
-   * `0 1 auto`, not `1`: the card takes the height its content needs and only
-   * shrinks when the screen runs out. Forcing it to fill left a short list
-   * such as two accounts sitting in a mostly empty card.
-   */
-  .admin-panel {
-    display: flex;
-    flex: 0 1 auto;
-    flex-direction: column;
-    min-height: 0;
-  }
+/*
+ * `0 1 auto`, not `1`: the card takes the height its content needs and only
+ * shrinks when the screen runs out. Forcing it to fill left a short list such
+ * as two accounts sitting in a mostly empty card.
+ */
+.admin-panel {
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: column;
+  min-height: 0;
+}
 
-  /* min-height: 0 is what lets a flex child actually shrink and scroll. */
-  .panel--scroll {
-    flex: 0 1 auto;
-    min-height: 0;
-    overflow-y: auto;
-  }
+/* min-height: 0 is what lets a flex child actually shrink and scroll. */
+.panel--scroll {
+  flex: 0 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
 
-  .panel--scroll .data-table th {
-    background: var(--brand-surface);
-    position: sticky;
-    top: 0;
-    z-index: 1;
-  }
+.panel--scroll .data-table th {
+  background: var(--brand-surface);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
 
-  .pagination {
-    margin-top: 14px;
-  }
+.pagination {
+  margin-top: 14px;
 }

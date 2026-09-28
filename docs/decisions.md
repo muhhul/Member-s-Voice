@@ -211,9 +211,19 @@ Tingginya dipaku ke empat tepi, bukan dihitung `calc(100dvh - ...)`: `dvh`
 dan viewport sebenarnya sempat berselisih 7px dan itu menyisakan scrollbar
 nyasar di halaman.
 
-Di ponsel tata letak satu layar itu tidak dipakai — area gulir di dalam
-viewport pendek sulit dikendalikan dengan jempol, dan halaman yang menggulir
-biasa lebih ramah. Fotonya juga tidak dipasang sama sekali di sana. Admin di ponsel adalah alat
+Tata letak itu berlaku di semua lebar, termasuk ponsel, dan fotonya dipasang
+di mana saja — atas permintaan, setelah versi sebelumnya melewatkan keduanya
+di layar kecil.
+
+Konsekuensinya diukur dan perlu diketahui: di layar 390x800 dengan label kolom
+ditampilkan, tiap kartu suara setinggi rata-rata 241px sementara jendela
+gulirnya 267px. Artinya sekitar **satu suara terlihat sekaligus**. Yang sudah
+dilakukan untuk melebarkannya: subjudul halaman disembunyikan secara visual,
+filter dirapatkan jadi dua kolom, dan label kolom dibuat sebaris dengan
+nilainya kecuali Pesan yang tetap berlabel di atas agar teksnya dapat lebar
+penuh. Kalau kepadatan itu terasa kurang, tiga tuas yang tersedia: sembunyikan
+lagi label di ponsel (naik ke ~2,7 baris), lipat panel filter (naik sekitar
+190px), atau kembalikan ponsel ke gulir halaman biasa. Admin di ponsel adalah alat
 kerja untuk membaca masukan, dan foto di belakang tabel hanya menambah unduhan
 sekaligus menurunkan kontras teks.
 

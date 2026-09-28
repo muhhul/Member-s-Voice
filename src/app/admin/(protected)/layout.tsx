@@ -49,7 +49,7 @@ export default async function AdminLayout({
                   strokeLinejoin="round"
                 />
               </svg>
-              Keluar
+              <span className="btn-label">Keluar</span>
             </button>
           </form>
         </div>
