@@ -31,6 +31,16 @@ export default async function AdminPage({
     <>
       <PageHeader
         title="Daftar Suara"
+        icon={
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path
+              d="M4 9.5v5a1.5 1.5 0 0 0 1.5 1.5H8l8 4.5V5L8 9.5H5.5A1.5 1.5 0 0 0 4 11z"
+              fill="currentColor"
+            />
+            <path d="M18.5 8.5a5 5 0 0 1 0 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            <path d="M6.5 16.5 8 21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+          </svg>
+        }
         subtitle={`${total} suara ditemukan. Tanggal saja yang ditampilkan, tanpa jam, untuk menjaga anonimitas pengirim.`}
         actions={
           <Link

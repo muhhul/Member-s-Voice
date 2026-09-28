@@ -6,7 +6,7 @@ export function VoiceFiltersForm({ filters }: { filters: VoiceFilters }) {
   const hasFilter = Boolean(filters.category || filters.from || filters.to || filters.q);
 
   return (
-    <form action="/admin" method="get" className="panel panel--pad filters-panel">
+    <form action="/admin" method="get" className="filters-panel">
       <div className="filter-bar">
         <div>
           <label htmlFor="filter-category">Kategori</label>
@@ -32,19 +32,41 @@ export function VoiceFiltersForm({ filters }: { filters: VoiceFilters }) {
 
         <div>
           <label htmlFor="filter-q">Cari isi pesan</label>
-          <input
-            id="filter-q"
-            name="q"
-            type="text"
-            defaultValue={filters.q ?? ""}
-            placeholder="kata kunci"
-          />
+          <span className="search-field">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="11" cy="11" r="6.4" stroke="currentColor" strokeWidth="1.9" />
+              <path
+                d="m16 16 4 4"
+                stroke="currentColor"
+                strokeWidth="1.9"
+                strokeLinecap="round"
+              />
+            </svg>
+            <input
+              id="filter-q"
+              name="q"
+              type="text"
+              defaultValue={filters.q ?? ""}
+              placeholder="kata kunci"
+            />
+          </span>
         </div>
       </div>
 
-      {/* Tanpa input page: menerapkan filter wajar mengembalikan ke halaman 1. */}
+      {/* No page input: applying a filter naturally returns to page 1. */}
       <div className="filter-actions">
-        <button type="submit">Terapkan</button>
+        <button type="submit">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path
+              d="M3.5 5.5h17l-6.6 7.6v5.6l-3.8 2v-7.6z"
+              stroke="currentColor"
+              strokeWidth="1.9"
+              strokeLinejoin="round"
+              fill="none"
+            />
+          </svg>
+          Terapkan
+        </button>
         {hasFilter ? (
           <a className="btn-ghost" href="/admin">
             Reset

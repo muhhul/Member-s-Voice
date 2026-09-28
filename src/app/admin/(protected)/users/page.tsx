@@ -12,6 +12,18 @@ export default async function UsersPage() {
     <>
       <PageHeader
         title="Akun Manajemen"
+        icon={
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="9" cy="8" r="3.4" fill="currentColor" />
+            <path d="M3 20c0-3.3 2.7-5.6 6-5.6s6 2.3 6 5.6z" fill="currentColor" />
+            <path
+              d="M16.4 5.6a3.4 3.4 0 0 1 0 6.4M17.6 15c2.3.7 3.9 2.6 3.9 5"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+          </svg>
+        }
         subtitle="Akun dinonaktifkan, tidak pernah dihapus, supaya riwayat aksesnya tetap jelas."
       />
 

@@ -8,9 +8,11 @@ export default async function AdminLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   const user = await requireRole(["master", "viewer"]);
 
-  const items = [{ href: "/admin", label: "Daftar Suara" }];
+  const items: { href: string; label: string; icon: "voices" | "users" }[] = [
+    { href: "/admin", label: "Daftar Suara", icon: "voices" },
+  ];
   if (user.role === "master") {
-    items.push({ href: "/admin/users", label: "Akun Manajemen" });
+    items.push({ href: "/admin/users", label: "Akun Manajemen", icon: "users" });
   }
 
   return (
@@ -44,7 +46,9 @@ export default async function AdminLayout({
           </form>
         </div>
       </nav>
-      <main className="admin-main">{children}</main>
+      <main className="admin-main">
+        <div className="admin-panel">{children}</div>
+      </main>
     </div>
   );
 }

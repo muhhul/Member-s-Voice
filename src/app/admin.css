@@ -12,14 +12,32 @@
  * The admin area gets its own pale grey ground so its cards read as raised.
  * The public page stays fully white.
  */
+/*
+ * The factory photo is a backdrop for the whole admin area. `cover` makes it
+ * fill however long the table grows; on a 25-row page it stretches and the
+ * sides crop, which is the right trade for never running out.
+ *
+ * Plain scroll attachment, not `fixed`: the image already covers the element
+ * at any length, so `fixed` buys nothing and is unreliable on iOS Safari.
+ */
 .admin-shell {
-  background: var(--admin-bg);
+  background: var(--admin-bg) url("/brand/admin-bg.webp") center top / cover no-repeat;
   min-height: calc(100vh - 60px);
 }
 
-.admin-bar {
+/* One white card holds the whole page, as in the design. */
+.admin-panel {
   background: var(--brand-surface);
-  border-bottom: 1px solid var(--admin-line);
+  border-radius: 22px;
+  box-shadow: 0 12px 40px rgba(16, 24, 40, 0.14);
+  padding: 26px 28px 30px;
+}
+
+/* Slightly translucent, so the photo's edges show through as in the design. */
+.admin-bar {
+  backdrop-filter: blur(6px);
+  background: rgba(255, 255, 255, 0.88);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 .admin-bar__inner {
@@ -32,9 +50,11 @@
 }
 
 .admin-bar__link {
+  align-items: center;
   border-bottom: 3px solid transparent;
   color: #4b5563;
-  display: block;
+  display: flex;
+  gap: 8px;
   font-size: 0.93rem;
   font-weight: 600;
   padding: 14px 12px 11px;
@@ -84,9 +104,22 @@
 }
 
 .page-head__title {
-  font-size: 1.6rem;
+  align-items: center;
+  display: flex;
+  font-size: 1.75rem;
+  gap: 10px;
   line-height: 1.2;
   margin: 0;
+}
+
+.page-head__icon {
+  color: var(--brand-primary);
+  display: inline-flex;
+}
+
+.page-head__icon svg {
+  height: 1.5em;
+  width: 1.5em;
 }
 
 .page-head__sub {
@@ -100,8 +133,7 @@
 .panel {
   background: var(--brand-surface);
   border: 1px solid var(--admin-line);
-  border-radius: 14px;
-  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+  border-radius: 16px;
 }
 
 .panel--pad {
@@ -201,7 +233,6 @@
 }
 
 .data-table th {
-  background: #f9fafb;
   border-bottom: 1px solid var(--admin-line);
   color: #667085;
   font-size: 0.72rem;
@@ -215,7 +246,7 @@
 
 .data-table td {
   border-bottom: 1px solid #f0f1f4;
-  padding: 13px 16px;
+  padding: 15px 16px;
   vertical-align: top;
 }
 
@@ -367,7 +398,13 @@
   align-items: center;
   display: flex;
   gap: 10px;
-  margin-top: 14px;
+  margin-top: 16px;
+}
+
+.filter-actions button {
+  align-items: center;
+  display: inline-flex;
+  gap: 8px;
 }
 
 /* Collapsible panel for a form that is only used occasionally. */
@@ -422,6 +459,22 @@
 }
 
 @media (max-width: 720px) {
+  /* No photo on a phone: it costs bytes and lowers text contrast on a tool
+     people use to read feedback, not to admire the plant. */
+  .admin-shell {
+    background: var(--admin-bg);
+  }
+
+  .admin-panel {
+    border-radius: 16px;
+    padding: 18px 14px 22px;
+  }
+
+  .admin-bar {
+    backdrop-filter: none;
+    background: var(--brand-surface);
+  }
+
   .admin-bar__inner {
     gap: 2px;
     padding: 0 12px;
@@ -449,8 +502,34 @@
   margin-left: 10px;
 }
 
+/* Nested inside the white page panel, so it needs its own quiet ground. */
 .filters-panel {
+  background: #fbfbfc;
+  border: 1px solid var(--admin-line);
+  border-radius: 16px;
   margin-bottom: 18px;
+  padding: 18px 20px 20px;
+}
+
+/* Magnifier sits inside the field rather than beside it. */
+.search-field {
+  display: block;
+  position: relative;
+}
+
+.search-field svg {
+  color: #98a2b3;
+  height: 17px;
+  left: 13px;
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 17px;
+}
+
+.search-field input {
+  padding-left: 38px;
 }
 
 .reset-password__input {

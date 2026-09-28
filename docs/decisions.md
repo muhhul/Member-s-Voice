@@ -179,7 +179,23 @@ membayar file yang tidak ia tampilkan. Pita ponsel dipasang sebagai
 `background-image` di dalam media query, yang juga tidak diunduh saat media
 query-nya tidak cocok.
 
-## 7. Aturan penulisan
+## 7. Latar foto di area admin
+
+Halaman admin memakai foto lantai pabrik sebagai latar, dengan seluruh isi
+halaman dalam satu kartu putih di atasnya. Fotonya `cover` dengan attachment
+biasa, bukan `fixed`: gambarnya sudah menutupi elemen pada panjang berapa pun,
+jadi `fixed` tidak menambah apa pun dan tidak andal di iOS Safari.
+
+Di bawah 720px fotonya tidak dipasang sama sekali. Admin di ponsel adalah alat
+kerja untuk membaca masukan, dan foto di belakang tabel hanya menambah unduhan
+sekaligus menurunkan kontras teks.
+
+Catatan alat: `design/measure.mjs` menjalankan ekspresi JS di halaman lewat
+DevTools Protocol. Dipakai saat latar tampak berhenti di tengah halaman —
+ternyata bukan bug, yang terlihat putih itu lantai pabrik yang mengkilap di
+bagian bawah foto. Mengukur lebih murah daripada menebak.
+
+## 8. Aturan penulisan
 
 - **Komentar dan nama ditulis dalam bahasa Inggris**, sesuai `project.md` §3.
   Yang Bahasa Indonesia hanya teks yang dilihat pengguna. Aturan ini sempat
@@ -192,7 +208,7 @@ query-nya tidak cocok.
 - **Tidak ada `style={{...}}` untuk keputusan tata letak.** Yang tersisa hanya
   dua di `pillars.tsx`, dan itu warna yang datang dari data, bukan tata letak.
 
-## 8. Yang masih terbuka
+## 9. Yang masih terbuka
 
 Lihat bagian "Keputusan yang masih terbuka" di [README.md](../README.md).
 Yang paling mendesak: bila sehari hanya masuk satu suara, tanggalnya saja sudah
