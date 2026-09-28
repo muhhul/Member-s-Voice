@@ -15,10 +15,10 @@ export default function RootLayout({
         <header className="topbar">
           <div className="topbar__inner">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img className="topbar__logo" src="/brand/logo.webp" alt="Toyota TMMIN" />
+            <img className="topbar__logo" src="/brand/logo.webp" alt="Toyota Indonesia - PT Toyota Motor Manufacturing Indonesia" />
             <span className="topbar__rule" aria-hidden="true" />
             <span className="topbar__unit">
-              <strong>PWPD</strong>
+              <strong>PWPD Sunter</strong>
               <span>Press &amp; Welding Production Division</span>
             </span>
             <span className="topbar__spacer" />

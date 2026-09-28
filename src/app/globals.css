@@ -74,7 +74,9 @@ a {
 }
 
 .topbar__logo {
-  height: 38px;
+  /* Logo v2 adalah lockup dua baris plus keterangan kecil, jadi lebih tinggi
+     daripada logo TMMIN yang lama. */
+  height: 46px;
   width: auto;
 }
 
@@ -144,7 +146,7 @@ a {
   background-position: top center;
   background-repeat: no-repeat;
   background-size: 100% auto;
-  height: 420px;
+  height: 405px;
   pointer-events: none;
   position: absolute;
   top: 0;
@@ -288,16 +290,34 @@ a {
 
 /* Lima pilar */
 .pillars {
-  background: var(--brand-surface);
+  padding: 0 20px;
+  position: relative;
+  z-index: 1;
 }
 
+/*
+ * Di mockup v2 pilar adalah kartu putih yang mengambang menindih ilustrasi
+ * bawah, bukan pita putih polos. Margin bawah negatif yang menghasilkan
+ * tindihan itu; z-index menjaga kartunya tetap di atas.
+ */
 .pillars__inner {
+  background: var(--brand-surface);
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(16, 24, 40, 0.1);
   display: grid;
   gap: 0;
   grid-template-columns: repeat(5, 1fr);
-  margin: 0 auto;
+  /*
+   * Tindihan dinyatakan relatif terhadap lebar layar, bukan piksel tetap.
+   * Pita bawah ikut mengecil bersama viewport - di 1440px tingginya ~124px,
+   * di 390px hanya ~34px. Nilai tetap -46px akan menelan habis pitanya di
+   * ponsel. 3vw menjaga proporsinya tetap sama di semua lebar.
+   */
+  margin: 0 auto -3vw;
   max-width: 1400px;
-  padding: 18px 20px 10px;
+  padding: 16px 20px;
+  position: relative;
+  z-index: 1;
 }
 
 .pillar {
