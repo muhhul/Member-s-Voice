@@ -197,6 +197,16 @@
   color: #8a5a00;
 }
 
+.chip--purple {
+  background: #f4e9fd;
+  color: #6b21a8;
+}
+
+.chip--teal {
+  background: #e1f4f1;
+  color: #0e6b5d;
+}
+
 .chip--slate {
   background: #eef0f3;
   color: #475467;

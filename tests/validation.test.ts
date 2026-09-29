@@ -23,18 +23,18 @@ describe("voiceSchema", () => {
   });
 
   it("rejects a message shorter than 10 characters after trimming", () => {
-    const result = voiceSchema.safeParse({ category: "hr", message: "   short   " });
+    const result = voiceSchema.safeParse({ category: "delivery", message: "   short   " });
     expect(result.success).toBe(false);
   });
 
   it("rejects a message longer than 2000 characters", () => {
-    const result = voiceSchema.safeParse({ category: "hr", message: "a".repeat(2001) });
+    const result = voiceSchema.safeParse({ category: "delivery", message: "a".repeat(2001) });
     expect(result.success).toBe(false);
   });
 
   it("has no area field in its output", () => {
     const parsed = voiceSchema.parse({
-      category: "hr",
+      category: "delivery",
       message: "a".repeat(20),
       area: "office",
     });

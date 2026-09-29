@@ -148,7 +148,14 @@ export const adminUsers = pgTable("admin_users", {
 ### Constants (to be confirmed with management)
 
 ```ts
-export const CATEGORIES = ["safety", "hr", "facility_improvement"] as const;
+export const CATEGORIES = [
+  "safety",
+  "productivity",
+  "quality",
+  "cost",
+  "environment",
+  "delivery",
+] as const;
 ```
 
 The values are stored in English. The UI maps them to Indonesian labels, for example `facility` → "Fasilitas" and `safety` → "K3".
@@ -258,7 +265,9 @@ Use separate databases (or Neon branches) for development and production.
 
 ## 14. Open Questions
 
-- ~~Final list of categories and areas.~~ **Settled:** three categories (`safety`, `hr`, `facility_improvement`); `area` dropped entirely.
+- ~~Final list of categories and areas.~~ **Settled:** the six QCDSM areas -
+  `safety`, `productivity`, `quality`, `cost`, `environment`, `delivery`;
+  `area` dropped entirely.
 - Branding: company name, logo, and colors.
 - Where the app lives after the demo (Vercel Pro, another host, or company infrastructure).
 - Data retention: how long voices are kept.

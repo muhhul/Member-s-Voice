@@ -49,7 +49,7 @@ describe("buildVoicesCsv", () => {
     },
     {
       createdAt: new Date("2026-03-14T04:00:00Z"),
-      category: "facility_improvement",
+      category: "quality",
       message: "Dispenser, tidak dingin",
     },
   ];
@@ -69,8 +69,8 @@ describe("buildVoicesCsv", () => {
     expect(lines[1]).not.toMatch(/\d{2}:\d{2}/);
   });
 
-  it("uses the Indonesian category label", () => {
-    expect(buildVoicesCsv(rows)).toContain("Keselamatan (K3)");
+  it("uses the category label, not the stored value", () => {
+    expect(buildVoicesCsv(rows)).toContain("Safety");
   });
 
   it("quotes a message containing a comma", () => {

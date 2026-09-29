@@ -17,7 +17,7 @@ bertentangan, yang di sini yang berlaku.
 
 | Perubahan | Alasan |
 |---|---|
-| Kategori final: `safety`, `hr`, `facility_improvement` | Ditetapkan manajemen. Tidak ada `other` |
+| Kategori final: enam area QCDSM - `safety`, `productivity`, `quality`, `cost`, `environment`, `delivery` | Ditetapkan manajemen. Labelnya tetap Inggris, berbeda dari sisa antarmuka: itu istilah divisi yang sudah dipakai di papan lantai produksi. Tidak ada `other` |
 | Kolom `area` **dihapus seluruhnya** | Menaikkan anonimitas: satu atribut yang bisa menyempitkan kandidat pengirim hilang. Ini juga mencoret §7.4 project.md |
 | Kode di root repo | `member-voice/` di §5 adalah nama proyek, bukan folder |
 | Next.js 15, bukan 16 | Dokumentasi lebih matang. File middleware bernama `middleware.ts`, bukan `proxy.ts` |
@@ -179,7 +179,25 @@ membayar file yang tidak ia tampilkan. Pita ponsel dipasang sebagai
 `background-image` di dalam media query, yang juga tidak diunduh saat media
 query-nya tidak cocok.
 
-## 7. Latar foto di area admin
+## 7. Mengganti daftar kategori
+
+`category` disimpan sebagai `text`, bukan enum database, supaya daftarnya bisa
+berubah tanpa migrasi. Konsekuensinya baris lama menyimpan nilai yang sudah
+tidak ada di `CATEGORIES` - `categoryLabel` menampilkannya apa adanya dan
+`categoryTone` memberinya chip abu, jadi datanya tidak pernah hilang meski
+daftarnya berganti.
+
+Saat daftar tiga kategori diganti enam, data demo lama dihapus dan di-seed
+ulang atas permintaan, jadi jalur nilai-lama itu belum pernah terlihat di
+layar. Ia tetap ada dan ada testnya.
+
+Yang harus ikut diperbarui saat daftar berubah: `CATEGORIES`,
+`CATEGORY_LABELS`, `CATEGORY_TONES`, kelas `.chip--<nada>` di `admin.css`,
+data contoh di `scripts/seed.ts`, dan test yang menyebut nilai kategori
+(`constants`, `category-tone`, `csv`, `queries`, `validation`, `query-string`).
+`npx tsc --noEmit` menemukan sebagian besar di antaranya.
+
+## 8. Latar foto di area admin
 
 Halaman admin memakai foto lantai pabrik sebagai latar, dengan seluruh isi
 halaman dalam satu kartu putih di atasnya.
@@ -232,7 +250,7 @@ DevTools Protocol. Dipakai saat latar tampak berhenti di tengah halaman —
 ternyata bukan bug, yang terlihat putih itu lantai pabrik yang mengkilap di
 bagian bawah foto. Mengukur lebih murah daripada menebak.
 
-## 8. Aturan penulisan
+## 9. Aturan penulisan
 
 - **Komentar dan nama ditulis dalam bahasa Inggris**, sesuai `project.md` §3.
   Yang Bahasa Indonesia hanya teks yang dilihat pengguna. Aturan ini sempat
@@ -245,7 +263,7 @@ bagian bawah foto. Mengukur lebih murah daripada menebak.
 - **Tidak ada `style={{...}}` untuk keputusan tata letak.** Yang tersisa hanya
   dua di `pillars.tsx`, dan itu warna yang datang dari data, bukan tata letak.
 
-## 9. Yang masih terbuka
+## 10. Yang masih terbuka
 
 Lihat bagian "Keputusan yang masih terbuka" di [README.md](../README.md).
 Yang paling mendesak: bila sehari hanya masuk satu suara, tanggalnya saja sudah

@@ -30,40 +30,64 @@ const DEMO_VOICES: { category: (typeof CATEGORIES)[number]; message: string; day
     daysAgo: 2,
   },
   {
-    category: "facility_improvement",
+    category: "productivity",
     message:
-      "Dispenser di lantai dua sudah lama tidak dingin. Kalau siang, air panasnya juga tidak keluar.",
+      "Ganti dies di line 2 sering menunggu forklift karena hanya ada satu yang siaga saat shift malam.",
     daysAgo: 3,
   },
   {
-    category: "facility_improvement",
+    category: "productivity",
     message:
-      "Tempat parkir motor kurang untuk shift dua. Banyak yang akhirnya parkir di luar dan tidak terlindung dari hujan.",
-    daysAgo: 5,
+      "Briefing pagi kadang molor sampai 15 menit karena menunggu data dari sistem. Kalau datanya disiapkan malam sebelumnya, kita bisa mulai tepat waktu.",
+    daysAgo: 4,
   },
   {
-    category: "facility_improvement",
+    category: "quality",
     message:
-      "Toilet dekat kantin perlu tambahan exhaust fan. Sirkulasi udaranya kurang, terutama jam istirahat.",
-    daysAgo: 8,
+      "Hasil welding di titik B sering perlu perbaikan ulang saat cuaca lembap. Mungkin perlu dicek setelan mesinnya.",
+    daysAgo: 6,
   },
   {
-    category: "hr",
+    category: "quality",
     message:
-      "Informasi perubahan jadwal shift sering terlambat sampai ke kami. Mungkin bisa diumumkan lebih awal supaya bisa mengatur urusan keluarga.",
+      "Lampu di area inspeksi kurang terang, jadi baret halus pada panel sering baru ketahuan di proses berikutnya.",
+    daysAgo: 7,
+  },
+  {
+    category: "cost",
+    message:
+      "Sarung tangan sering diganti padahal masih layak, karena tidak ada tempat penyimpanan per orang jadi mudah tertukar.",
     daysAgo: 9,
   },
   {
-    category: "hr",
+    category: "cost",
     message:
-      "Proses klaim kesehatan terasa berbelit. Formulirnya masih manual padahal sistemnya sudah ada.",
+      "Kompresor di area press menyala terus saat istirahat panjang. Kalau dimatikan, lumayan menghemat listrik.",
+    daysAgo: 10,
+  },
+  {
+    category: "environment",
+    message:
+      "Tempat sampah pilah di dekat kantin sering tercampur karena labelnya sudah pudar dan sulit dibaca.",
     daysAgo: 12,
   },
   {
-    category: "hr",
+    category: "environment",
     message:
-      "Sosialisasi program pelatihan kurang merata. Yang di produksi sering tahu setelah pendaftaran ditutup.",
+      "Ceceran oli di sekitar mesin press belum punya wadah khusus, jadi sering terserap majun lalu ikut terbuang.",
+    daysAgo: 13,
+  },
+  {
+    category: "delivery",
+    message:
+      "Informasi perubahan jadwal pengiriman sering terlambat sampai ke line, jadi kami sempat menyiapkan part yang salah.",
     daysAgo: 15,
+  },
+  {
+    category: "delivery",
+    message:
+      "Label part di rak sementara kadang tidak terbaca, jadi loading ke truk perlu pengecekan dua kali.",
+    daysAgo: 16,
   },
 ];
 

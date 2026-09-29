@@ -88,7 +88,7 @@ describe("voiceWhere", () => {
 
   it("combines every filter into one condition", () => {
     const { sql, params } = sqlFor({
-      category: "hr",
+      category: "delivery",
       from: "2026-01-01",
       to: "2026-01-31",
       q: "shift",
@@ -101,7 +101,7 @@ describe("voiceWhere", () => {
   });
 
   it("never references a column that could identify the sender", () => {
-    const { sql } = sqlFor({ category: "hr", q: "shift" });
+    const { sql } = sqlFor({ category: "delivery", q: "shift" });
     for (const forbidden of ["ip", "user", "agent", "device", "session"]) {
       expect(sql.toLowerCase()).not.toContain(forbidden);
     }

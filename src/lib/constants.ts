@@ -1,12 +1,33 @@
-export const CATEGORIES = ["safety", "hr", "facility_improvement"] as const;
+/**
+ * The six QCDSM areas the division reports against.
+ *
+ * Stored as text rather than a database enum so this list can change without
+ * a migration. Rows written under an older list keep their old value and are
+ * still rendered - see categoryLabel and categoryTone.
+ */
+export const CATEGORIES = [
+  "safety",
+  "productivity",
+  "quality",
+  "cost",
+  "environment",
+  "delivery",
+] as const;
 
 export type Category = (typeof CATEGORIES)[number];
 
-/** UI copy is Bahasa Indonesia; the stored values stay English. */
+/**
+ * These labels stay English, unlike the rest of the UI copy. They are the
+ * division's own QCDSM terms, used in English on the shop floor and on the
+ * boards people already read.
+ */
 export const CATEGORY_LABELS: Record<Category, string> = {
-  safety: "Keselamatan (K3)",
-  hr: "HR",
-  facility_improvement: "Perbaikan Fasilitas",
+  safety: "Safety",
+  productivity: "Productivity",
+  quality: "Quality",
+  cost: "Cost",
+  environment: "Environment",
+  delivery: "Delivery",
 };
 
 export function categoryLabel(value: string): string {
@@ -20,14 +41,25 @@ export function categoryLabel(value: string): string {
  * background and the dark text are set as a pair. Hex values here would split
  * that pair apart and make unreadable chips easy to produce.
  */
-export const TONES = ["green", "blue", "amber", "slate"] as const;
+export const TONES = [
+  "green",
+  "blue",
+  "purple",
+  "amber",
+  "teal",
+  "rose",
+  "slate",
+] as const;
 
 export type Tone = (typeof TONES)[number];
 
 export const CATEGORY_TONES: Record<Category, Tone> = {
   safety: "green",
-  hr: "blue",
-  facility_improvement: "amber",
+  productivity: "blue",
+  quality: "purple",
+  cost: "amber",
+  environment: "teal",
+  delivery: "rose",
 };
 
 /** "slate" covers legacy values no longer present in CATEGORIES. */

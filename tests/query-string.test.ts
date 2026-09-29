@@ -17,7 +17,7 @@ describe("toQueryString", () => {
   });
 
   it("applies overrides on top of the current filters", () => {
-    expect(toQueryString({ category: "hr", page: 2 }, { page: 5 })).toBe("category=hr&page=5");
+    expect(toQueryString({ category: "quality", page: 2 }, { page: 5 })).toBe("category=quality&page=5");
   });
 
   it("encodes values that need it", () => {
