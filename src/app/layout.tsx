@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -14,8 +15,16 @@ export default function RootLayout({
       <body>
         <header className="topbar">
           <div className="topbar__inner">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img className="topbar__logo" src="/brand/logo.webp" alt="Toyota Indonesia - PT Toyota Motor Manufacturing Indonesia" />
+            {/*
+              The logo is the way back to the form. aria-label names the
+              destination, so the image itself is decorative: without it a
+              screen reader would read the company name and leave the reader
+              guessing where the link goes.
+            */}
+            <Link className="topbar__home" href="/" aria-label="Toyota Indonesia - beranda">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img className="topbar__logo" src="/brand/logo.webp" alt="" />
+            </Link>
             <span className="topbar__rule" aria-hidden="true" />
             <span className="topbar__unit">
               <strong>PWPD Sunter</strong>

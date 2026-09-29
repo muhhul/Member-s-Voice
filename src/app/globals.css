@@ -81,6 +81,22 @@ a {
   padding: 10px 20px;
 }
 
+/* Wrapper for the logo link: no extra box, just a focusable target. */
+.topbar__home {
+  border-radius: 6px;
+  display: inline-flex;
+  text-decoration: none;
+}
+
+.topbar__home:hover {
+  opacity: 0.82;
+}
+
+.topbar__home:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 3px;
+}
+
 .topbar__logo {
   /* The v2 logo is a two-line lockup plus a small caption, so it is taller
      than the old TMMIN mark. */
@@ -345,7 +361,23 @@ th {
     height: 32px;
   }
 
-  .topbar__logo {
+  /* Wrapper for the logo link: no extra box, just a focusable target. */
+.topbar__home {
+  border-radius: 6px;
+  display: inline-flex;
+  text-decoration: none;
+}
+
+.topbar__home:hover {
+  opacity: 0.82;
+}
+
+.topbar__home:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 3px;
+}
+
+.topbar__logo {
     height: 32px;
   }
 
