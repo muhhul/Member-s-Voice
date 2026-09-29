@@ -129,8 +129,11 @@ kartu diukur `em` terhadap satu `font-size` yang mengikuti lebar layar; kalau
 dipatok piksel, kartu akan tetap besar sementara posternya mengecil lalu
 menjebol ruangnya.
 
-**Di bawah 860px** dipakai `hero-mobile.webp` dan `band-mobile.webp` dari
-mockup potret, dengan form mengalir normal di antaranya. Lima nilai PWPD di
+**Di bawah 860px** dipakai latar potret tersendiri, dipotong jadi tiga:
+`hero-mobile.webp` di atas, `mid-mobile.webp` sebagai latar di belakang kartu
+form dan kartu nilai, dan `band-mobile.webp` menutup di bawah. Form mengalir
+normal di antaranya. Aset ponsel dikodekan pada quality 74, lebih rendah dari
+aset desktop, karena diunduh lewat data seluler. Lima nilai PWPD di
 sini **teks HTML sungguhan**, bukan bagian gambar: kalau ikut dipanggang,
 label seperti COMFORTABLE hanya terender 8–10px di layar 390px dan tidak
 terbaca. Ukurannya memakai `clamp()` supaya ikut membesar di tablet.

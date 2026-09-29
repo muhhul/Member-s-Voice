@@ -286,6 +286,22 @@
 
 @media (max-width: 860px) {
   /*
+   * The mid strip of the portrait artwork backs the whole page on a phone:
+   * red diagonals and greenery. The card sits nearly full width here, so what
+   * shows is the margin beside it and the gaps between sections - which is
+   * exactly what used to be blank white.
+   */
+  main {
+    background: url("/brand/mid-mobile.webp") center center / cover no-repeat;
+    display: flex;
+    flex-direction: column;
+    /* Fills the screen even when the form is short, so the closing band sits
+       on the bottom edge instead of leaving blank page under it. */
+    min-height: calc(100dvh - var(--topbar-h));
+  }
+
+
+  /*
    * On a phone the artwork stops carrying the form. The tall hero is its own
    * crop, the form returns to normal flow beneath it, and the five values come
    * back as real text - inside the poster they would render at 8-10px here.
@@ -363,7 +379,10 @@
        downloads it, so wide screens do not pay for a file they never show. */
     background: url("/brand/band-mobile.webp") no-repeat center top / 100% auto;
     display: block;
-    margin-top: 14px;
-    padding-top: 18.65%;
+    /* auto, not a fixed gap: as the last flex child it is pushed to the bottom
+       edge when the form is short, so no blank page is left under it. */
+    margin-top: auto;
+    /* 382/941 of the width, so the strip keeps its own proportions. */
+    padding-top: 40.6%;
   }
 }
